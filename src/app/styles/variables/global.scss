@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap');
+
+//Шрифты
+$fontFamilyMain: "Kdam Thmor Pro", "Arial", sans-serif;
+$fontSizeM: 16px;
+$fontLineM: 150%;
+$fontMain: #{$fontSizeM} / #{$fontLineM} $fontFamilyMain;
+
+$fontSizeL: 24px;
+$fontLineL: 150%;
+$fontLarge: #{$fontSizeL} / #{$fontLineL} $fontFamilyMain;

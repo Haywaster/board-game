@@ -1,0 +1,11 @@
+$bgColor: #000;
+$primaryColor: #fff;
+$secondaryColor: #3f3f3f;
+
+.app {
+  &.dark {
+    --bg-color: #{$bgColor};
+    --primary-color: #{$primaryColor};
+    --navbar-bg-color: #{$secondaryColor}
+  }
+}

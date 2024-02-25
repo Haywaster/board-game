@@ -1,0 +1,30 @@
+@import "app/styles/variables/global";
+@import "app/styles/themes/light";
+@import "app/styles/themes/dark";
+
+.app {
+  font: $fontMain;
+  background: {
+    color: var(--bg-color);
+  };
+  color: var(--primary-color);
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  font: $fontMain;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-size: unset;
+}
+
+h1 {
+  font: $fontLarge;
+  font-weight: 600;
+}
