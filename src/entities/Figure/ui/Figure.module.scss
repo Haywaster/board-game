@@ -1,0 +1,27 @@
+.Figure {
+  transition: 0.15s all ease-in-out;
+  background-color: red;
+  border-radius: 100%;
+  width: 80%;
+  height: 80%;
+
+  &.black {
+    background-color: var(--figure-black);
+  }
+
+  &.white {
+    background-color: var(--figure-white);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &:global(.active) {
+    border: 3px solid var(--active);
+    width: 85%;
+    height: 85%;
+  }
+}

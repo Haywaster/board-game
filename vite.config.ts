@@ -8,7 +8,8 @@ export default defineConfig({
 		alias: {
 			app: '/src/app',
 			shared: '/src/shared',
-			widgets: '/src/widgets'
+			widgets: '/src/widgets',
+			entities: '/src/entities'
 		}
 	}
 })

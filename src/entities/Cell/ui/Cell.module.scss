@@ -1,0 +1,33 @@
+.Cell {
+  width: calc(100% / 8);
+  height: calc(100% / 8);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+
+  &.black {
+    background-color: var(--cell-black);
+  }
+
+  &.white {
+    background-color: var(--cell-white);
+  }
+
+  &:global(.active) {
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+:global {
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.Wrapper {
+  display: grid;
+  width: fit-content;
+}
+
+.Board {
+  display: flex;
+  flex-flow: wrap-reverse;
+  width: 500px;
+  height: 500px;
+  border: 5px solid var(--primary-color);
+}
+
+.Columns {
+  display: grid;
+  grid-template-rows: repeat(8, 1fr);
+  height: 500px;
+  width: 70px;
+  border-right: none;
+  justify-items: center;
+  align-items: center;
+  transform: rotate(180deg);
+
+  & > * {
+    transform: rotate(-180deg);
+  }
+}
+
+.Rows {
+  display: grid;
+  grid-area: 2 / 2 / 3 / 3;
+  grid-template-columns: repeat(8, 1fr);
+  height: 70px;
+  width: 500px;
+  border-right: none;
+  justify-items: center;
+  align-items: center;
+}

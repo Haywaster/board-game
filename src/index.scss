@@ -2,13 +2,21 @@
 @import "app/styles/themes/light";
 @import "app/styles/themes/dark";
 
+:root {
+  --cell-white: #{$baseWhite};
+  --cell-black: #{$baseBlack};
+  --active: #{$active}
+}
+
 .app {
   font: $fontMain;
   background: {
     color: var(--bg-color);
   };
   color: var(--primary-color);
+  display: grid;
   min-height: 100vh;
+  grid-template-rows: auto 1fr;
 }
 
 body {
@@ -22,6 +30,12 @@ button {
 h1, h2, h3, h4 {
   margin: 0;
   font-size: unset;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 h1 {
