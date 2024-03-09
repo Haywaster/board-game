@@ -7,6 +7,8 @@ export interface FigureContextProps {
 	setActiveFigure: Dispatch<SetStateAction<IFigure| null>>
 	cells: ICell[]
 	setCells: Dispatch<SetStateAction<ICell[]>>
+	activeCells: ICell[]
+	setActiveCells: Dispatch<SetStateAction<ICell[]>>
 }
 
 export const FigureContext = createContext<FigureContextProps | null>(null)

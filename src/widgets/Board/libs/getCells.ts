@@ -28,7 +28,6 @@ export const getCells = (): ICell[] => {
 				y: row,
 				id: cellIdCounter++,
 				color: (row + column) % 2 !== 0 ? 'white' : 'black',
-				isActive: false,
 				figure: createFigure()
 			};
 			

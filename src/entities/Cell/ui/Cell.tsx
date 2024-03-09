@@ -8,8 +8,9 @@ import module from './Cell.module.scss';
 interface IProps extends ICell{}
 
 export const Cell: FC<IProps> = (cell) => {
-	const {id, x, y, color, isActive, figure} = cell
-	const {activeFigure, setActiveFigure, setCells} = useFigure()
+	const {id, x, y, color, figure} = cell
+	const {activeFigure, setActiveFigure, setCells, activeCells, setActiveCells} = useFigure()
+	const isActive = !!activeCells.find(item => item.id === id)
 	
 	const handlerActiveCell = () => {
 		if (isActive && activeFigure) {
@@ -26,6 +27,7 @@ export const Cell: FC<IProps> = (cell) => {
 			}))
 			
 			setActiveFigure(null)
+			setActiveCells([])
 		}
 	}
 	

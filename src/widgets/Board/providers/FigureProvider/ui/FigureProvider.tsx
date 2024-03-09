@@ -9,6 +9,7 @@ export const FigureProvider: FC<PropsWithChildren> = ({ children }) => {
 	
 	const [cells, setCells] = useState<ICell[]>(initialCells)
 	const [activeFigure, setActiveFigure] = useState<IFigure | null>(null);
+	const [activeCells, setActiveCells] = useState<ICell[]>([])
 	
 	const defaultActiveFigureValue = useMemo(() => (
 		{
@@ -20,11 +21,17 @@ export const FigureProvider: FC<PropsWithChildren> = ({ children }) => {
 			cells, setCells
 		}), [cells]);
 	
+	const defaultActiveCellsValue = useMemo(() => (
+		{
+			activeCells, setActiveCells
+		}), [activeCells]);
+	
 	return (
 		<FigureContext.Provider value={
 			{
 				...defaultActiveFigureValue,
-				...defaultCellsValue
+				...defaultCellsValue,
+				...defaultActiveCellsValue
 			}
 		}>
 			{ children }
