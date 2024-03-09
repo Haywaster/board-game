@@ -5,8 +5,6 @@ import { type ICell } from 'entities/Cell';
 export interface FigureContextProps {
 	activeFigure: IFigure | null
 	setActiveFigure: Dispatch<SetStateAction<IFigure| null>>
-	figures: IFigure[]
-	setFigures: Dispatch<SetStateAction<IFigure[]>>
 	cells: ICell[]
 	setCells: Dispatch<SetStateAction<ICell[]>>
 }

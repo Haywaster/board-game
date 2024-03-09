@@ -1,21 +1,37 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { type ICell } from '../types/types.ts';
 import { classNames } from 'shared/libs/classNames.ts';
-import { type IFigure, Figure } from 'entities/Figure';
-import module from './Cell.module.scss';
+import { Figure } from 'entities/Figure';
 import { useFigure } from 'widgets/Board/providers/FigureProvider';
+import module from './Cell.module.scss';
 
-interface IProps extends ICell{
-	figure?: IFigure
-}
+interface IProps extends ICell{}
 
 export const Cell: FC<IProps> = (cell) => {
-	const {id, x, y, color, isActive, isEmpty, figure} = cell
-	const {activeFigure, setActiveFigure, cells, setCells} = useFigure()
+	const {id, x, y, color, isActive, figure} = cell
+	const {activeFigure, setActiveFigure, setCells} = useFigure()
+	
+	const handlerActiveCell = () => {
+		if (isActive && activeFigure) {
+			setCells(prev => prev.map(cell => {
+				if (cell.figure && cell.figure.id === activeFigure.id) {
+					cell.figure = null
+				}
+				
+				if (!cell.figure && cell.id === id) {
+					cell.figure = { ...activeFigure, x, y }
+				}
+				
+				return {...cell, isActive: false}
+			}))
+			
+			setActiveFigure(null)
+		}
+	}
 	
 	return (
 		<li
-			// onClick={handlerActiveCell}
+			onClick={handlerActiveCell}
 			className={classNames(module.Cell, {active: isActive}, [module[color]])}>
 			{figure && <Figure {...figure}/>}
 		</li>
