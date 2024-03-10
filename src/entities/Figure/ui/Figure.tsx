@@ -63,7 +63,7 @@ export const Figure: FC<IProps> = (figure) => {
 	}
 	
 	const getDirectionMove = (arr: ICell[], figureId: number): ICell[] => {
-		const emptyItems: ICell[] = []
+		const items: ICell[] = []
 		const findFigure = cells.find(cell => cell.figure?.id === figureId)?.figure;
 		
 		if (!findFigure) {
@@ -76,18 +76,20 @@ export const Figure: FC<IProps> = (figure) => {
 			
 			if (whiteCondition || blackCondition) {
 				if (!cell.figure) {
-					emptyItems.push(cell);
+					items.push(cell);
 				} else {
-					const newCellNeighbours = getNeighboursCell(cell.id, 'cell');
-					const emptyItem = newCellNeighbours.find(nextCell => !nextCell.figure && Math.abs(nextCell.x - findFigure.x) === 2 && Math.abs(nextCell.y - findFigure.y) === 2);
-					if (emptyItem) {
-						emptyItems.push(emptyItem);
+					if (findFigure.color !== cell.figure.color) {
+						const newCellNeighbours = getNeighboursCell(cell.id, 'cell');
+						const emptyItem = newCellNeighbours.find(nextCell => !nextCell.figure && Math.abs(nextCell.x - findFigure.x) === 2 && Math.abs(nextCell.y - findFigure.y) === 2);
+						if (emptyItem) {
+							items.push(emptyItem);
+						}
 					}
 				}
 			}
 		});
 		
-		return emptyItems;
+		return items;
 	}
 	
 	const active = activeFigure?.id === id;

@@ -1,15 +1,11 @@
 $bgColor: #fff;
 $primaryColor: #000;
 $secondaryColor: #b1b1b1;
-$figureWhite: #f8d29b;
-$figureBlack: #5b3939;
 
 .app {
   &.light {
     --bg-color: #{$bgColor};
     --primary-color: #{$primaryColor};
     --navbar-bg-color: #{$secondaryColor};
-    --figure-white: #{$figureWhite};
-    --figure-black: #{$figureBlack}
   }
 }
