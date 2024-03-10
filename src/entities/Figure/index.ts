@@ -1,2 +1,2 @@
-export {type IFigure} from './types/types.ts'
+export * from './types/types.ts'
 export {Figure} from './ui/Figure.tsx'

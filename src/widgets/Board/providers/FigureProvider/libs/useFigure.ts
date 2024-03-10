@@ -8,9 +8,7 @@ export const useFigure = () => {
 			setActiveFigure,
 			cells,
 			setCells,
-			activeCells,
-			setActiveCells
 		} = useContext(FigureContext) as FigureContextProps;
 	
-	return { activeFigure, setActiveFigure, cells, setCells, activeCells, setActiveCells };
+	return { activeFigure, setActiveFigure, cells, setCells };
 };
