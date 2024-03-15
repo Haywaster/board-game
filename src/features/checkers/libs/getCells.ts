@@ -1,5 +1,4 @@
-import { type ICell } from 'entities/Cell';
-import { type IFigure } from 'entities/Figure';
+import type { ICell, IFigure } from 'entities/Cell';
 
 export const getCells = (): ICell[] => {
 	const cells: Omit<ICell, 'id'>[] = [];

@@ -1,0 +1,15 @@
+.Column {
+  display: grid;
+  grid-template-rows: repeat(8, 1fr);
+  height: 500px;
+  width: 70px;
+  border-right: none;
+  justify-items: center;
+  align-items: center;
+  transform: rotate(180deg);
+  font-weight: 600;
+
+  & > * {
+    transform: rotate(-180deg);
+  }
+}

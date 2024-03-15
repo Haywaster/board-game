@@ -1,23 +1,31 @@
-import { FC } from 'react';
-import { type IFigure } from '../../Figure';
-import { type ICell } from '../../Cell';
+import { FC, memo } from 'react';
 import module from './Figure.module.scss';
 import { classNames } from 'shared/libs/classNames.ts';
-import { useFigure } from 'widgets/Board/providers/FigureProvider';
-import { IFigureAction, IFigureKillAction, IFigureMoveAction, IKillFigureAndCell } from '../types/types.ts';
+import type {
+	IFigure,
+	IFigureAction, IFigureKillAction,
+	IFigureMoveAction, IKillFigureAndCell
+} from '../../model/types.ts';
+import type { ICell } from 'entities/Cell/index.ts';
+import { useFigure } from 'app/providers/FigureProvider';
 
 interface IProps extends IFigure {}
 
-export const Figure: FC<IProps> = (figure) => {
+export const Figure: FC<IProps> = memo((figure) => {
+	const {activeFigure, setActiveFigure, cells, isWhiteStep} = useFigure()
 	const { id, color } = figure;
-	const { activeFigure, setActiveFigure, cells } = useFigure();
 	
 	const onFigureClick = () => {
-		if (!activeFigure || activeFigure.figure.id !== id) {
+		const whiteLaw = isWhiteStep && color === 'white'
+		const blackLaw = !isWhiteStep && color === 'black'
+		
+		if ((whiteLaw || blackLaw) && (!activeFigure || activeFigure.figure.id !== id)) {
 			const actionsActiveFigure = getFigureActions(id)
 			setActiveFigure({ figure, actions: actionsActiveFigure});
-		} else {
-			setActiveFigure(null);
+		}
+		
+		if (activeFigure && activeFigure.figure.id === id) {
+			setActiveFigure(null)
 		}
 	};
 	
@@ -64,8 +72,8 @@ export const Figure: FC<IProps> = (figure) => {
 		}
 		
 		//Kill
-		const fearNeighboursCell = getNeighboursCell(figureId, 'figure', 2)
 		const killOrderArr: IKillFigureAndCell[] = []
+		const fearNeighboursCell = getNeighboursCell(figureId, 'figure', 2)
 		
 		const potentialKillActions = fearNeighboursCell.filter(c => {
 			if (findFigure) {
@@ -74,9 +82,9 @@ export const Figure: FC<IProps> = (figure) => {
 						&& findFigure.color !== cell.figure.color
 						&& Math.abs(cell.x - findFigure.x) === 1
 						&& Math.abs(cell.y - findFigure.y) === 1;
-
+					
 					const isBetween = (findFigure.x + c.x) / 2 === cell.x && (findFigure.y + c.y) / 2 === cell.y;
-
+					
 					return isEnemyFigure && isBetween;
 				});
 				
@@ -119,4 +127,4 @@ export const Figure: FC<IProps> = (figure) => {
 			onClick={ onFigureClick }
 			className={ classNames(module.Figure, { active }, [module[color]]) }/>
 	);
-};
+});

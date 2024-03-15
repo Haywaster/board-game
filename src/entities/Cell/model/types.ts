@@ -1,4 +1,10 @@
-import { type ICell } from '../../Cell';
+export interface ICell {
+	id: number
+	color: 'white' | 'black'
+	x: number
+	y: number
+	figure: IFigure | null
+}
 
 export interface IFigure {
 	id: number

@@ -1,6 +1,6 @@
 import { useFigureActions } from './useFigureActions.ts';
-import { useIsActiveCell } from './useIsActiveCell.ts';
-import { useFigure } from 'widgets/Board/providers/FigureProvider';
+import { useIsActiveCell } from 'entities/Cell/libs/hooks/useIsActiveCell.ts';
+import { useFigure } from 'app/providers/FigureProvider';
 
 export const useHandleActiveCell = (id: number) => {
 	const { activeFigure } = useFigure();
@@ -12,12 +12,16 @@ export const useHandleActiveCell = (id: number) => {
 			activeFigure.actions.find(action => {
 				switch (action.type) {
 					case 'move': {
-						moveFigure();
+						if (action.cells.find(cell => cell.id === id)) {
+							moveFigure();
+						}
 						break;
 					}
 					case 'kill': {
-						killFigure(action.killOrder);
-						moveFigure();
+						if (action.killOrder.find(order => order.cell.id === id)) {
+							killFigure(action.killOrder);
+							moveFigure();
+						}
 						break;
 					}
 					default:

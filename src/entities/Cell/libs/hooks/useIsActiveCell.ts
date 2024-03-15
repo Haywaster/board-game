@@ -1,8 +1,8 @@
-import { useFigure } from 'widgets/Board/providers/FigureProvider';
+import { useFigure } from 'app/providers/FigureProvider';
 
-export const useIsActiveCell = (cellId: number) => {
+export const useIsActiveCell = (cellId: number): boolean => {
 	const { activeFigure } = useFigure();
-
+	
 	return !!activeFigure?.actions.find(action => {
 		switch (action.type) {
 			case 'move':

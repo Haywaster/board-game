@@ -8,9 +8,13 @@ module.exports = {
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
+	parserOptions: {
+		project: true
+	},
   plugins: ['react-refresh'],
   rules: {
 	  "@typescript-eslint/no-unused-vars": "warn",
+	  "@typescript-eslint/consistent-type-exports": "error",
 	  'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },

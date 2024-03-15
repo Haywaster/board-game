@@ -1,8 +1,8 @@
-import { useFigure } from 'widgets/Board/providers/FigureProvider';
-import { type IKillFigureAndCell } from '../../../Figure';
+import { useFigure } from 'app/providers/FigureProvider';
+import type { IKillFigureAndCell } from '../../model/types.ts';
 
 export const useFigureActions = (cellId: number) => {
-	const { activeFigure, setActiveFigure, setCells } = useFigure();
+	const { activeFigure, setActiveFigure, setCells, setIsWhiteStep } = useFigure();
 	
 	const moveFigure = () => {
 		if (activeFigure) {
@@ -17,7 +17,7 @@ export const useFigureActions = (cellId: number) => {
 				
 				return { ...cell, isActive: false };
 			}));
-			
+			setIsWhiteStep(prev => !prev)
 			setActiveFigure(null);
 		}
 	};

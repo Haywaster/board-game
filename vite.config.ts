@@ -9,7 +9,11 @@ export default defineConfig({
 			app: '/src/app',
 			shared: '/src/shared',
 			widgets: '/src/widgets',
-			entities: '/src/entities'
+			entities: '/src/entities',
+			features: '/src/features'
 		}
+	},
+	server: {
+		port: 3000,
 	}
 })

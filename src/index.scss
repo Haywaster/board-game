@@ -7,7 +7,9 @@
   --cell-black: #{$baseBlack};
   --figure-white: #{$figureWhite};
   --figure-black: #{$figureBlack};
-  --active: #{$active}
+  --active: #{$active};
+  --font-m: #{$fontMain};
+  --font-l: #{$fontLarge};
 }
 
 .app {

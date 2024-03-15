@@ -1,0 +1,11 @@
+.Row {
+  display: grid;
+  grid-area: 2 / 2 / 3 / 3;
+  grid-template-columns: repeat(8, 1fr);
+  height: 70px;
+  width: 500px;
+  border-right: none;
+  justify-items: center;
+  align-items: center;
+  font-weight: 600;
+}
