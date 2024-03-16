@@ -19,7 +19,10 @@ export const useHandleActiveCell = (id: number) => {
 					}
 					case 'kill': {
 						if (action.killOrder.find(order => order.cell.id === id)) {
-							killFigure(action.killOrder);
+							const targetIndex = action.killOrder.findIndex(item => item.cell.id === id);
+							const killArr = targetIndex >= 0 ? action.killOrder.slice(0, targetIndex + 1) : [...action.killOrder];
+							
+							killFigure(killArr);
 							moveFigure();
 						}
 						break;

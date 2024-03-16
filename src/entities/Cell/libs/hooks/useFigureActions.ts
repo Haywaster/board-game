@@ -23,6 +23,7 @@ export const useFigureActions = (cellId: number) => {
 	};
 	
 	const killFigure = (killOrder: IKillFigureAndCell[]) => {
+		console.log(killOrder);
 		setCells(prev => prev.map(cell => {
 			if (killOrder.find(order => order.figure.id === cell.figure?.id)) {
 				return { ...cell, figure: null };
