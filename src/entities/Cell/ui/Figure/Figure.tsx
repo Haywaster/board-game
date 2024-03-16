@@ -49,72 +49,77 @@ export const Figure: FC<IProps> = memo((figure) => {
 	
 	const getFigureActions = (figureId: number): IFigureAction[] => {
 		const actions: IFigureAction[] = []
-		const findFigure = cells.find(cell => cell.figure?.id === figureId)?.figure;
+		const findCell = cells.find(cell => cell.figure?.id === figureId)
+		const findFigure = findCell?.figure;
 		
-		//Move
-		const nearNeighboursCell = getNeighboursCell(figureId)
-		
-		const emptyNearNeighboursCell = nearNeighboursCell.filter(cell => {
-			if (findFigure) {
+		if (findCell && findFigure) {
+			//Move
+			const nearNeighboursCell = getNeighboursCell(figureId)
+			
+			const emptyNearNeighboursCell = nearNeighboursCell.filter(cell => {
 				const whiteCondition = findFigure.color === 'white' && cell.y > findFigure.y;
 				const blackCondition = findFigure.color === 'black' && cell.y < findFigure.y;
-				return !cell.figure && (
-					whiteCondition || blackCondition)
+				return !cell.figure && (whiteCondition || blackCondition)
+			})
+			
+			if (emptyNearNeighboursCell.length) {
+				const action: IFigureMoveAction = {
+					type: 'move',
+					cells: emptyNearNeighboursCell
+				}
+				actions.push(action)
 			}
-		})
-		
-		if (emptyNearNeighboursCell.length) {
-			const action: IFigureMoveAction = {
-				type: 'move',
-				cells: emptyNearNeighboursCell
-			}
-			actions.push(action)
-		}
-		
-		//Kill
-		const killOrderArr: IKillFigureAndCell[] = []
-		const fearNeighboursCell = getNeighboursCell(figureId, 'figure', 2)
-		
-		const potentialKillActions = fearNeighboursCell.filter(c => {
-			if (findFigure) {
-				const enemyFigureCell = cells.find(cell => {
-					const isEnemyFigure = cell.figure
-						&& findFigure.color !== cell.figure.color
-						&& Math.abs(cell.x - findFigure.x) === 1
-						&& Math.abs(cell.y - findFigure.y) === 1;
-					
-					const isBetween = (findFigure.x + c.x) / 2 === cell.x && (findFigure.y + c.y) / 2 === cell.y;
-					
-					return isEnemyFigure && isBetween;
+			
+			//Kill
+			const killOrderArr: IKillFigureAndCell[] = []
+			
+			const getKillOrders = (cellActiveFigure: ICell, visitedCells: Set<ICell> = new Set()): void => {
+				if (visitedCells.has(cellActiveFigure)) {
+					return;
+				}
+				
+				visitedCells.add(cellActiveFigure);
+				
+				const enemyFigures =
+					cells
+					.filter(cell => cell.figure && cell.figure.color !== findFigure.color &&
+						Math.abs(cell.x - cellActiveFigure.x) === 1 && Math.abs(cell.y - cellActiveFigure.y) === 1 &&
+						!visitedCells.has(cell))
+					.map(cell => cell.figure);
+				
+				const activeCells = cells.filter(cell => {
+					return !cell.figure &&
+						Math.abs(cell.x - cellActiveFigure.x) === 2 &&
+						Math.abs(cell.y - cellActiveFigure.y) === 2 &&
+						!visitedCells.has(cell);
 				});
 				
-				return c.figure === null && enemyFigureCell !== undefined;
-			} else {
-				return false;
-			}
-		});
-		
-		potentialKillActions.forEach(pka => {
-			const enemyCell = cells.find(cell => {
-				const isBetween = findFigure && (findFigure.x + pka.x) / 2 === cell.x && (findFigure.y + pka.y) / 2 === cell.y;
-				return isBetween;
-			});
-			if (enemyCell && enemyCell.figure) {
-				const killAction: IKillFigureAndCell = {
-					figure: enemyCell.figure,
-					cell: pka
-				};
+				if (enemyFigures.length === 0 || activeCells.length === 0) {
+					return;
+				}
 				
-				killOrderArr.push(killAction);
+				enemyFigures.forEach(figure => {
+					if (figure) {
+						const findCell = activeCells.find(cell => Math.abs(figure.x - cell.x) === 1 && Math.abs(figure.y - cell.y) === 1)
+						
+						if (findCell && !visitedCells.has(findCell)) {
+							const target: IKillFigureAndCell = {figure, cell: findCell};
+							killOrderArr.push(target);
+							getKillOrders(findCell, visitedCells);
+						}
+					}
+				});
 			}
-		});
-		
-		if (killOrderArr.length) {
-			const action: IFigureKillAction = {
-				type: 'kill',
-				killOrder: killOrderArr
+			
+			getKillOrders(findCell, new Set());
+			
+			if (killOrderArr.length) {
+				const action: IFigureKillAction = {
+					type: 'kill',
+					killOrder: killOrderArr
+				}
+				actions.push(action)
 			}
-			actions.push(action)
 		}
 		
 		return actions
