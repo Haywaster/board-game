@@ -8,7 +8,7 @@ export const useIsActiveCell = (cellId: number): boolean => {
 			case 'move':
 				return action.cells.find(cell => cell.id === cellId);
 			case 'kill':
-				return action.killOrder.find(order => order.cell.id === cellId);
+				return action.killOrder.flat().find(order => order.cell.id === cellId)
 			default:
 				return false;
 		}

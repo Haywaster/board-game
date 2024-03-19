@@ -1,36 +1,38 @@
 import { useFigureActions } from './useFigureActions.ts';
-import { useIsActiveCell } from 'entities/Cell/libs/hooks/useIsActiveCell.ts';
 import { useFigure } from 'app/providers/FigureProvider';
 
 export const useHandleActiveCell = (id: number) => {
-	const { activeFigure } = useFigure();
 	const { moveFigure, killFigure } = useFigureActions(id);
-	const active = useIsActiveCell(id);
-	
+	const { activeFigure } = useFigure();
+
 	return () => {
-		if (activeFigure && active) {
-			activeFigure.actions.find(action => {
-				switch (action.type) {
-					case 'move': {
-						if (action.cells.find(cell => cell.id === id)) {
-							moveFigure();
-						}
-						break;
+		activeFigure?.actions.find(action => {
+			switch (action.type) {
+				case 'move': {
+					if (action.cells.some(cell => cell.id === id)) {
+						moveFigure();
 					}
-					case 'kill': {
-						if (action.killOrder.find(order => order.cell.id === id)) {
-							const targetIndex = action.killOrder.findIndex(item => item.cell.id === id);
-							const killArr = targetIndex >= 0 ? action.killOrder.slice(0, targetIndex + 1) : [...action.killOrder];
+					break;
+				}
+				case 'kill': {
+					const activeCell =
+						action.killOrder
+						.find(orderArr => orderArr
+						.some(order => order.cell.id === id))
+					
+					if (activeCell) {
+						const currentOrder = action.killOrder.find(orderArr => orderArr.find(order => order.cell.id === id));
+						
+						if (currentOrder) {
+							const targetIndex = currentOrder.findIndex(item => item.cell.id === id);
+							const killArr = targetIndex >= 0 ? currentOrder.slice(0, targetIndex + 1) : [...currentOrder];
 							
 							killFigure(killArr);
 							moveFigure();
 						}
-						break;
 					}
-					default:
-						break;
 				}
-			});
-		}
-	};
+			}
+		});
+	}
 };

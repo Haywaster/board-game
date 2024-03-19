@@ -15,21 +15,21 @@ export const useFigureActions = (cellId: number) => {
 					cell.figure = { ...activeFigure.figure, x: cell.x, y: cell.y };
 				}
 				
-				return { ...cell, isActive: false };
+				return cell;
 			}));
+			
 			setIsWhiteStep(prev => !prev)
 			setActiveFigure(null);
 		}
 	};
 	
 	const killFigure = (killOrder: IKillFigureAndCell[]) => {
-		console.log(killOrder);
 		setCells(prev => prev.map(cell => {
 			if (killOrder.find(order => order.figure.id === cell.figure?.id)) {
 				return { ...cell, figure: null };
 			}
 			
-			return { ...cell, isActive: false };
+			return cell;
 		}));
 	};
 	

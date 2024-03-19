@@ -4,9 +4,8 @@ import { classNames } from 'shared/libs/classNames.ts';
 import type {
 	IFigure,
 	IFigureAction, IFigureKillAction,
-	IFigureMoveAction, IKillFigureAndCell
+	IFigureMoveAction
 } from '../../model/types.ts';
-import type { ICell } from 'entities/Cell/index.ts';
 import { useFigure } from 'app/providers/FigureProvider';
 
 interface IProps extends IFigure {}
@@ -29,24 +28,6 @@ export const Figure: FC<IProps> = memo((figure) => {
 		}
 	};
 	
-	const getNeighboursCell = (id: number, whoseId: 'figure' | 'cell' = 'figure', neighArea: number = 1): ICell[]  => {
-		const findCell = cells.find(cell => whoseId === 'figure' ? cell.figure?.id === id : cell.id === id)
-		
-		if (!findCell) {
-			return [];
-		}
-		
-		return cells.filter(cell => {
-			const baseRules = cell.color === 'black'
-			const xStep = Math.abs(findCell.x - cell.x) <= neighArea
-			const yStep = Math.abs(findCell.y - cell.y) <= neighArea
-			
-			if (baseRules && yStep && xStep && cell.id !== findCell.id) {
-				return cell
-			}
-		})
-	}
-	
 	const getFigureActions = (figureId: number): IFigureAction[] => {
 		const actions: IFigureAction[] = []
 		const findCell = cells.find(cell => cell.figure?.id === figureId)
@@ -54,12 +35,10 @@ export const Figure: FC<IProps> = memo((figure) => {
 		
 		if (findCell && findFigure) {
 			//Move
-			const nearNeighboursCell = getNeighboursCell(figureId)
-			
-			const emptyNearNeighboursCell = nearNeighboursCell.filter(cell => {
+			const emptyNearNeighboursCell = cells.filter(cell => {
 				const whiteCondition = findFigure.color === 'white' && cell.y > findFigure.y;
 				const blackCondition = findFigure.color === 'black' && cell.y < findFigure.y;
-				return !cell.figure && (whiteCondition || blackCondition)
+				return !cell.figure && (whiteCondition || blackCondition) && 	Math.abs(cell.x - findFigure.x) === 1 && Math.abs(cell.y - findFigure.y) === 1
 			})
 			
 			if (emptyNearNeighboursCell.length) {
@@ -71,15 +50,22 @@ export const Figure: FC<IProps> = memo((figure) => {
 			}
 			
 			//Kill
-			const killOrderArr: IKillFigureAndCell[] = []
+			const killOrderArr = []; // IKillFigureAndCell[][] type implied
 			
-			const getKillOrders = (cellActiveFigure: ICell, visitedCells: Set<ICell> = new Set()): void => {
+			const getKillOrders = (cellActiveFigure, visitedCells = new Set(), tempOrderArr = []) => {
 				if (visitedCells.has(cellActiveFigure)) {
+					// Базовый случай: если рекурсия достигла ранее посещенной клетки
+					if (tempOrderArr.length > 0) {
+						// Если есть что добавлять, добавляем tempOrderArr в killOrderArr
+						killOrderArr.push([...tempOrderArr]); // Копируем, чтобы избежать мутаций
+						tempOrderArr.length = 0; // Очищаем tempOrderArr
+					}
 					return;
 				}
 				
 				visitedCells.add(cellActiveFigure);
 				
+				// Предположим, что 'cells' и 'findFigure' доступны в вашем контексте
 				const enemyFigures =
 					cells
 					.filter(cell => cell.figure && cell.figure.color !== findFigure.color &&
@@ -95,21 +81,31 @@ export const Figure: FC<IProps> = memo((figure) => {
 				});
 				
 				if (enemyFigures.length === 0 || activeCells.length === 0) {
+					if (tempOrderArr.length > 0) {
+						killOrderArr.push([...tempOrderArr]);
+						tempOrderArr.length = 0;
+					}
 					return;
 				}
 				
 				enemyFigures.forEach(figure => {
 					if (figure) {
-						const findCell = activeCells.find(cell => Math.abs(figure.x - cell.x) === 1 && Math.abs(figure.y - cell.y) === 1)
+						const findCell = activeCells.find(cell => Math.abs(figure.x - cell.x) === 1 && Math.abs(figure.y - cell.y) === 1);
 						
 						if (findCell && !visitedCells.has(findCell)) {
-							const target: IKillFigureAndCell = {figure, cell: findCell};
-							killOrderArr.push(target);
-							getKillOrders(findCell, visitedCells);
+							const target = {figure, cell: findCell};
+							tempOrderArr.push(target); // Добавляем во временный массив для текущего пути рекурсии
+							getKillOrders(findCell, new Set(visitedCells), tempOrderArr);
 						}
 					}
 				});
-			}
+				
+				if (tempOrderArr.length > 0 && visitedCells.size === 1) {
+					// Добавляем tempOrderArr в killOrderArr, если это первый вызов функции (новая ветка рекурсии)
+					killOrderArr.push([...tempOrderArr]);
+					tempOrderArr.length = 0; // Очищаем tempOrderArr после добавления
+				}
+			};
 			
 			getKillOrders(findCell, new Set());
 			

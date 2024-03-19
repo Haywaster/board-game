@@ -21,7 +21,7 @@ export interface IKillFigureAndCell {
 
 export interface IFigureKillAction {
 	type: 'kill'
-	killOrder: IKillFigureAndCell[]
+	killOrder: IKillFigureAndCell[][]
 }
 
 export interface IFigureMoveAction {
