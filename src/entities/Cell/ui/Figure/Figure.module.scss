@@ -1,4 +1,7 @@
 .Figure {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: 0.15s all ease-in-out;
   background-color: red;
   border-radius: 100%;
@@ -7,6 +10,12 @@
 
   &.black {
     background-color: var(--figure-black);
+
+    & > svg {
+      path {
+        fill: var(--figure-white);
+      }
+    }
   }
 
   &.white {
@@ -23,5 +32,10 @@
     border: 3px solid var(--active);
     width: 85%;
     height: 85%;
+  }
+
+  & > svg {
+    width: 80%;
+    height: 80%;
   }
 }
