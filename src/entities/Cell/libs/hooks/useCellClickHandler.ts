@@ -1,8 +1,8 @@
-import { useFigureActions } from './useFigureActions.ts';
+import { useCommitFigureActions } from './useCommitFigureActions.ts';
 import { useFigure } from 'app/providers/FigureProvider';
 
-export const useHandleActiveCell = (id: number) => {
-	const { moveFigure, killFigure } = useFigureActions(id);
+export const useCellClickHandler = (id: number) => {
+	const { moveFigure, killFigure } = useCommitFigureActions(id);
 	const { activeFigure } = useFigure();
 
 	return () => {

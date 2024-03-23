@@ -1,7 +1,7 @@
 import { useFigure } from 'app/providers/FigureProvider';
 import type { IKillFigureAndCell } from '../../model/types.ts';
 
-export const useFigureActions = (cellId: number) => {
+export const useCommitFigureActions = (cellId: number) => {
 	const { activeFigure, setActiveFigure, setCells, setIsWhiteStep } = useFigure();
 	
 	const moveFigure = () => {
