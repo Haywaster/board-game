@@ -12,6 +12,10 @@ export const useCommitFigureActions = (cellId: number) => {
 				}
 				
 				if (!cell.figure && cell.id === cellId) {
+					if (!activeFigure.figure.isStain && (cell.y === 8 && activeFigure.figure.color === 'white') || (cell.y === 1 && activeFigure.figure.color === 'black')) {
+						cell.figure = { ...activeFigure.figure, x: cell.x, y: cell.y, isStain: true };
+						return cell;
+					}
 					cell.figure = { ...activeFigure.figure, x: cell.x, y: cell.y };
 				}
 				
