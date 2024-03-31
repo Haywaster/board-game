@@ -1,4 +1,6 @@
 import type { ICell, IFigure, IFigureMoveAction } from '../../model/types.ts';
+import { calcDistance } from 'features/checkers/libs/calcDistance.ts';
+import { splitCellByDirections } from 'features/checkers/libs/splitCellByDirections.ts';
 
 const commonFigureLogic = (cells: ICell[], findFigure: IFigure) => {
 	const emptyNearNeighboursCell = cells.filter(cell => {
@@ -20,22 +22,32 @@ const commonFigureLogic = (cells: ICell[], findFigure: IFigure) => {
 };
 
 const stainFigureLogic = (cells: ICell[], findFigure: IFigure) => {
-	const emptyAllNeighboursCell: ICell[] = [];
-	
-	for (const cell of cells) {
-		if (!cell.figure && Math.abs(cell.x - findFigure.x) === Math.abs(cell.y - findFigure.y)) {
-			const neighboursCell = cells.filter(neighbour => Math.abs(neighbour.x - cell.x) === 1 &&
-				Math.abs(neighbour.y - cell.y) === 1);
-			
-			if (neighboursCell.some(c => c.figure && c.figure.id !== findFigure.id && Math.abs(c.x - cell.x) === 1 &&
-				Math.abs(c.y - cell.y) === 1 && Math.abs(findFigure.x - cell.x) > Math.abs(findFigure.x - c.x) &&
-				Math.abs(findFigure.y - cell.y) > Math.abs(findFigure.y - c.y))) {
-				continue;
+	const getStainActiveCells = (): ICell[] => {
+		const diagonalCells = cells.filter(cell => Math.abs(cell.x - findFigure.x) === Math.abs(cell.y - findFigure.y) &&
+			cell.figure?.id !== findFigure.id);
+		const sortedCells = diagonalCells.sort((a, b) => {
+			const distanceA = calcDistance(findFigure.x, findFigure.y, a.x, a.y);
+			const distanceB = calcDistance(findFigure.x, findFigure.y, b.x, b.y);
+			return distanceA - distanceB;
+		});
+		
+		const cellsByDirections = splitCellByDirections(sortedCells, findFigure);
+		const activeCells: ICell[] = [];
+		
+		cellsByDirections.forEach(direction => {
+			for (const cell of direction) {
+				if (!cell.figure) {
+					activeCells.push(cell);
+				} else {
+					break;
+				}
 			}
-			
-			emptyAllNeighboursCell.push(cell);
-		}
-	}
+		});
+		
+		return activeCells;
+	};
+	
+	const emptyAllNeighboursCell: ICell[] = getStainActiveCells();
 	
 	if (emptyAllNeighboursCell.length) {
 		const action: IFigureMoveAction = {

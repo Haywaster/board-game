@@ -1,6 +1,6 @@
-@import "app/styles/variables/global";
-@import "app/styles/themes/light";
-@import "app/styles/themes/dark";
+@import "variables/global";
+@import "themes/light";
+@import "themes/dark";
 
 :root {
   --cell-white: #{$baseWhite};
