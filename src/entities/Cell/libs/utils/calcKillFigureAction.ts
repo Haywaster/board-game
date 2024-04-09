@@ -15,29 +15,25 @@ export const calcKillFigureAction = (cells: ICell[], findFigure: IFigure, findCe
 		const sortedCells = sortCellsByFar(diagonalCells, currentCell);
 		const cellsByDirections = splitCellByDirections(sortedCells, currentCell);
 		
-		for (const direction of cellsByDirections) {
-			const action = {} as IKillFigureAndCell
+		cellsByDirections.forEach(direction => {
+			const action = direction.reduce((acc, cell, index) => {
+				if (cell.figure && cell.figure.color !== findFigure.color && index === 0) {
+					acc.figure = cell.figure;
+				} else if (acc.figure && !cell.figure && index === 1) {
+					acc.cell = cell;
+				}
+				return acc;
+			}, {} as IKillFigureAndCell);
 			
-			for (const cell of direction) {
-				if (cell.figure && cell.figure.color !== findFigure.color && direction[0] === cell) {
-					action.figure = cell.figure;
-					continue;
-				}
-				if (action.figure && !cell.figure && direction[1] === cell) {
-					action.cell = cell;
-					
-					if (!visitedCells.has(cell.id)) {
-						const newArr = [...orderArr, action];
-						killOrderArr.push(newArr);
-						getOrderKill(action.cell, newArr);
-					}
-					break;
-				}
+			if (action.figure && action.cell && !visitedCells.has(action.cell.id)) {
+				const newArr = [...orderArr, action];
+				killOrderArr.push(newArr);
+				getOrderKill(action.cell, newArr);
 			}
-		}
-	}
+		});
+	};
 	
-	getOrderKill(findCell)
+	getOrderKill(findCell);
 	
 	if (killOrderArr.length) {
 		const action: IFigureKillAction = {

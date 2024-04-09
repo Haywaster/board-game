@@ -8,12 +8,13 @@
   --figure-white: #{$figureWhite};
   --figure-black: #{$figureBlack};
   --active: #{$active};
+  --turbid: #{$turbid};
+  --font-s: #{$fontMain};
   --font-m: #{$fontMain};
   --font-l: #{$fontLarge};
 }
 
 .app {
-  font: $fontMain;
   background: {
     color: var(--bg-color);
   };
@@ -25,6 +26,7 @@
 
 body {
   margin: 0;
+  font: $fontMain;
 }
 
 button {

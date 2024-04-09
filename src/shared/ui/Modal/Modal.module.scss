@@ -1,0 +1,40 @@
+.Modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  user-select: none;
+  transition: 0.3s opacity ease-in-out;
+  backdrop-filter: blur(3px);
+  z-index: -1;
+
+  &.open {
+    opacity: 1;
+    z-index: 1;
+    user-select: auto;
+  }
+
+  &.closing {
+    opacity: 0;
+  }
+}
+
+.Overlay {
+  width: 100%;
+  height: 100%;
+  background-color: var(--turbid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Content {
+  text-align: center;
+  background-color: var(--cell-white);
+  border-radius: 12px;
+  padding: 30px;
+  min-width: 300px;
+  min-height: 300px;
+}

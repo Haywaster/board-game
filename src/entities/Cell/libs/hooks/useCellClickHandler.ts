@@ -24,10 +24,7 @@ export const useCellClickHandler = (id: number) => {
 						const currentOrder = action.killOrder.find(orderArr => orderArr.find(order => order.cell.id === id));
 						
 						if (currentOrder) {
-							const targetIndex = currentOrder.findIndex(item => item.cell.id === id);
-							const killArr = targetIndex >= 0 ? currentOrder.slice(0, targetIndex + 1) : [...currentOrder];
-							
-							killFigure(killArr);
+							killFigure(currentOrder);
 							moveFigure();
 						}
 					}
