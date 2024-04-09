@@ -1,6 +1,7 @@
 import type { ICell, IFigure, IFigureMoveAction } from '../../model/types.ts';
-import { calcDistance } from 'features/checkers/libs/calcDistance.ts';
 import { splitCellByDirections } from 'features/checkers/libs/splitCellByDirections.ts';
+import { sortCellsByFar } from 'features/checkers/libs/sortCellsByFar.ts';
+import { filterCellByDiagonal } from 'features/checkers/libs/filterCellByDiagonal.ts';
 
 const commonFigureLogic = (cells: ICell[], findFigure: IFigure) => {
 	const emptyNearNeighboursCell = cells.filter(cell => {
@@ -22,32 +23,21 @@ const commonFigureLogic = (cells: ICell[], findFigure: IFigure) => {
 };
 
 const stainFigureLogic = (cells: ICell[], findFigure: IFigure) => {
-	const getStainActiveCells = (): ICell[] => {
-		const diagonalCells = cells.filter(cell => Math.abs(cell.x - findFigure.x) === Math.abs(cell.y - findFigure.y) &&
-			cell.figure?.id !== findFigure.id);
-		const sortedCells = diagonalCells.sort((a, b) => {
-			const distanceA = calcDistance(findFigure.x, findFigure.y, a.x, a.y);
-			const distanceB = calcDistance(findFigure.x, findFigure.y, b.x, b.y);
-			return distanceA - distanceB;
-		});
-		
-		const cellsByDirections = splitCellByDirections(sortedCells, findFigure);
-		const activeCells: ICell[] = [];
-		
-		cellsByDirections.forEach(direction => {
-			for (const cell of direction) {
-				if (!cell.figure) {
-					activeCells.push(cell);
-				} else {
-					break;
-				}
-			}
-		});
-		
-		return activeCells;
-	};
+	const diagonalCells = filterCellByDiagonal(cells, findFigure);
+	const sortedCells = sortCellsByFar(diagonalCells, findFigure);
+	const cellsByDirections = splitCellByDirections(sortedCells, findFigure);
 	
-	const emptyAllNeighboursCell: ICell[] = getStainActiveCells();
+	const emptyAllNeighboursCell: ICell[] = [];
+	
+	cellsByDirections.forEach(direction => {
+		for (const cell of direction) {
+			if (!cell.figure) {
+				emptyAllNeighboursCell.push(cell);
+			} else {
+				break;
+			}
+		}
+	});
 	
 	if (emptyAllNeighboursCell.length) {
 		const action: IFigureMoveAction = {

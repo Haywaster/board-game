@@ -1,67 +1,43 @@
 import type { ICell, IFigure, IFigureKillAction, IKillFigureAndCell } from '../../model/types.ts';
+import { filterCellByDiagonal } from 'features/checkers/libs/filterCellByDiagonal.ts';
+import { sortCellsByFar } from 'features/checkers/libs/sortCellsByFar.ts';
+import { splitCellByDirections } from 'features/checkers/libs/splitCellByDirections.ts';
 
 export const calcKillFigureAction = (cells: ICell[], findFigure: IFigure, findCell: ICell) => {
 	const killOrderArr: IKillFigureAndCell[][] = [];
+	const visitedCells = new Set<number>();
 	
-	const getEnemyFigures = (cellActiveFigure: ICell, visitedCells: Set<ICell>): IFigure[] => {
-		return cells
-		.filter(cell => checkEnemyFigure(cell, cellActiveFigure) && !visitedCells.has(cell))
-		.map(cell => cell.figure!);
-	};
-	
-	const getActiveCells = (cellActiveFigure: ICell, visitedCells: Set<ICell>): ICell[] => {
-		return cells.filter(cell => checkActiveCell(cell, cellActiveFigure) && !visitedCells.has(cell));
-	};
-	
-	const checkEnemyFigure = (cell: ICell, cellActiveFigure: ICell): boolean => {
-		return cell.figure! && cell.figure.color !== findFigure.color &&
-			Math.abs(cell.x - cellActiveFigure.x) === 1 && Math.abs(cell.y - cellActiveFigure.y) === 1;
-	};
-	
-	const checkActiveCell = (cell: ICell, cellActiveFigure: ICell): boolean => {
-		return !cell.figure &&
-			Math.abs(cell.x - cellActiveFigure.x) === 2 &&
-			Math.abs(cell.y - cellActiveFigure.y) === 2;
-	};
-	
-	const checkCellDistance = (figure: IFigure, cell: ICell): boolean => {
-		return Math.abs(figure.x - cell.x) === 1 && Math.abs(figure.y - cell.y) === 1;
-	};
-	
-	const getKillOrders = (
-		cellActiveFigure: ICell,
-		visitedCells: Set<ICell> = new Set(),
-		tempOrderArr: IKillFigureAndCell[] = []): void => {
+	const getOrderKill = (currentCell: ICell, orderArr: IKillFigureAndCell[] = []): void => {
+		if (visitedCells.has(currentCell.id)) return;
+		visitedCells.add(currentCell.id);
 		
-		if (visitedCells.has(cellActiveFigure)) {
-			if (tempOrderArr.length > 0) killOrderArr.push([...tempOrderArr]);
-			return;
-		}
+		const diagonalCells = filterCellByDiagonal(cells, currentCell);
+		const sortedCells = sortCellsByFar(diagonalCells, currentCell);
+		const cellsByDirections = splitCellByDirections(sortedCells, currentCell);
 		
-		visitedCells.add(cellActiveFigure);
-		
-		const enemyFigures = getEnemyFigures(cellActiveFigure, visitedCells);
-		const activeCells = getActiveCells(cellActiveFigure, visitedCells);
-		
-		if (enemyFigures.length === 0 || activeCells.length === 0) {
-			if (tempOrderArr.length > 0) killOrderArr.push([...tempOrderArr]);
-			return;
-		}
-		
-		enemyFigures.forEach(figure => {
-			const findCell = activeCells.find(cell => checkCellDistance(figure, cell));
+		for (const direction of cellsByDirections) {
+			const action = {} as IKillFigureAndCell
 			
-			if (figure && findCell && !visitedCells.has(findCell)) {
-				const target: IKillFigureAndCell = { figure, cell: findCell };
-				tempOrderArr.push(target);
-				getKillOrders(findCell, new Set(visitedCells), tempOrderArr);
+			for (const cell of direction) {
+				if (cell.figure && cell.figure.color !== findFigure.color && direction[0] === cell) {
+					action.figure = cell.figure;
+					continue;
+				}
+				if (action.figure && !cell.figure && direction[1] === cell) {
+					action.cell = cell;
+					
+					if (!visitedCells.has(cell.id)) {
+						const newArr = [...orderArr, action];
+						killOrderArr.push(newArr);
+						getOrderKill(action.cell, newArr);
+					}
+					break;
+				}
 			}
-		});
-		
-		if (tempOrderArr.length > 0 && visitedCells.size === 1) killOrderArr.push([...tempOrderArr]);
-	};
+		}
+	}
 	
-	getKillOrders(findCell, new Set());
+	getOrderKill(findCell)
 	
 	if (killOrderArr.length) {
 		const action: IFigureKillAction = {
