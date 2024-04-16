@@ -1,10 +1,10 @@
+import type { IKillSchema } from 'entities/Cell/model/types.ts';
 import { useFigure } from 'app/providers/FigureProvider';
-import type { IKillFigureAndCell } from '../../model/types.ts';
 
 export const useCommitFigureActions = (cellId: number) => {
 	const { activeFigure, setActiveFigure, setCells, setIsWhiteStep } = useFigure();
 	
-	const moveFigure = () => {
+	const moveFigure = (makeStain?: boolean) => {
 		if (activeFigure) {
 			setCells(prev => prev.map(cell => {
 				if (cell.figure && cell.figure.id === activeFigure.figure.id) {
@@ -12,7 +12,7 @@ export const useCommitFigureActions = (cellId: number) => {
 				}
 				
 				if (!cell.figure && cell.id === cellId) {
-					if (!activeFigure.figure.isStain && (cell.y === 8 && activeFigure.figure.color === 'white') || (cell.y === 1 && activeFigure.figure.color === 'black')) {
+					if (makeStain || !activeFigure.figure.isStain && (cell.y === 8 && activeFigure.figure.color === 'white') || (cell.y === 1 && activeFigure.figure.color === 'black')) {
 						cell.figure = { ...activeFigure.figure, x: cell.x, y: cell.y, isStain: true };
 						return cell;
 					}
@@ -27,9 +27,9 @@ export const useCommitFigureActions = (cellId: number) => {
 		}
 	};
 	
-	const killFigure = (killOrder: IKillFigureAndCell[]) => {
+	const killFigure = (killOrder: IKillSchema[]) => {
 		setCells(prev => prev.map(cell => {
-			if (killOrder.find(order => order.figure.id === cell.figure?.id)) {
+			if (killOrder.find(schema => schema.figure.id === cell.figure?.id)) {
 				return { ...cell, figure: null };
 			}
 			

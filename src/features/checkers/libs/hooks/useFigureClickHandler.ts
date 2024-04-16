@@ -1,6 +1,6 @@
+import type { IFigure } from 'entities/Cell/model/types.ts';
 import { useFigure } from 'app/providers/FigureProvider';
 import { useCalcFigureActions } from './useCalcFigureActions.ts';
-import type { IFigure } from '../../model/types.ts';
 
 export const useFigureClickHandler = (figure: IFigure) => {
 	const { id, color } = figure;

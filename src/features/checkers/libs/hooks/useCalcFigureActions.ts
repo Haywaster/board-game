@@ -1,4 +1,4 @@
-import type { IFigureAction, } from '../../model/types.ts';
+import type { IFigureAction, } from 'entities/Cell/model/types.ts';
 import { useFigure } from 'app/providers/FigureProvider';
 import { calcMoveFigureAction } from '../utils/calcMoveFigureAction.ts';
 import { calcKillFigureAction } from '../utils/calcKillFigureAction.ts';

@@ -1,7 +1,7 @@
-import type { ICell, IFigure, IFigureMoveAction } from '../../model/types.ts';
-import { splitCellByDirections } from 'features/checkers/libs/splitCellByDirections.ts';
-import { sortCellsByFar } from 'features/checkers/libs/sortCellsByFar.ts';
-import { filterCellByDiagonal } from 'features/checkers/libs/filterCellByDiagonal.ts';
+import type { ICell, IFigure, IFigureMoveAction } from 'entities/Cell/model/types.ts';
+import { splitCellByDirections } from 'features/checkers/libs/utils/splitCellByDirections.ts';
+import { sortCellsByFar } from 'features/checkers/libs/utils/sortCellsByFar.ts';
+import { filterCellByDiagonal } from 'features/checkers/libs/utils/filterCellByDiagonal.ts';
 
 const commonFigureLogic = (cells: ICell[], findFigure: IFigure) => {
 	const emptyNearNeighboursCell = cells.filter(cell => {

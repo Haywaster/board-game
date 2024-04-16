@@ -1,0 +1,11 @@
+.switchWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+  align-items: center;
+
+  label {
+    width: 200px;
+  }
+}

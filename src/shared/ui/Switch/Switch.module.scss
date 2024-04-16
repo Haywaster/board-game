@@ -1,0 +1,40 @@
+.Switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 20px;
+
+  &:global(.checked) {
+    .Track {
+      background-color: var(--primary);
+    }
+
+    .Toggle {
+      transform: translateX(25px);
+    }
+  }
+}
+
+.Track {
+  padding: 4px;
+  display: flex;
+  min-width: 44px;
+  height: 20px;
+  background-color: var(--turbid);
+  border-radius: 15px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.Toggle {
+  align-self: center;
+  width: 16px;
+  height: 16px;
+  background-color: var(--cell-white);
+  border-radius: 50%;
+  transition: transform 0.1s linear;
+}
+
+.Input {
+  display: none;
+}

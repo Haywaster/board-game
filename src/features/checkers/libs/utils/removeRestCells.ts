@@ -1,0 +1,29 @@
+import type { ICell } from 'entities/Cell';
+
+export const removeRestCells = (cellsByDirections: ICell[][],): ICell[][] => {
+	const interestedCells: ICell[][] = [];
+	
+	cellsByDirections.forEach(direction => {
+		const cellsInDirection = [];
+		let figureCount = 0;
+		
+		for (const cell of direction) {
+			if (figureCount >= 2) {
+				break;
+			}
+			
+			if (cell.figure) {
+				figureCount++;
+				if (figureCount > 1) {
+					continue;
+				}
+			}
+			
+			cellsInDirection.push(cell);
+		}
+		
+		interestedCells.push(cellsInDirection);
+	});
+	
+	return interestedCells.filter(direction => !direction[direction.length - 1].figure)
+}

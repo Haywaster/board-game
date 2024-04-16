@@ -14,14 +14,19 @@ export interface IFigure {
 	isStain: boolean
 }
 
-export interface IKillFigureAndCell {
+export interface IKillSchema {
 	figure: IFigure
 	cell: ICell
 }
 
+export interface IKillOrderSchema {
+	killOrder: IKillSchema[]
+	makeStain: boolean
+}
+
 export interface IFigureKillAction {
 	type: 'kill'
-	killOrder: IKillFigureAndCell[][]
+	actions: IKillOrderSchema[]
 }
 
 export interface IFigureMoveAction {

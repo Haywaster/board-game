@@ -16,16 +16,15 @@ export const useCellClickHandler = (id: number) => {
 				}
 				case 'kill': {
 					const activeCell =
-						action.killOrder
-						.find(orderArr => orderArr
+						action.actions
+						.find(({killOrder}) => killOrder
 						.some(order => order.cell.id === id))
 					
 					if (activeCell) {
-						const currentOrder = action.killOrder.find(orderArr => orderArr.find(order => order.cell.id === id));
-						
+						const currentOrder = action.actions.find(({killOrder}) => killOrder.find(order => order.cell.id === id));
 						if (currentOrder) {
-							killFigure(currentOrder);
-							moveFigure();
+							killFigure(currentOrder.killOrder);
+							moveFigure(currentOrder.makeStain);
 						}
 					}
 				}
