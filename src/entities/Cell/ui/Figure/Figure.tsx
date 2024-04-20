@@ -1,7 +1,7 @@
 import { FC, memo } from 'react';
 import module from './Figure.module.scss';
 import { classNames } from 'shared/libs/classNames.ts';
-import { useFigureClickHandler } from '../../../../features/checkers/libs/hooks/useFigureClickHandler.ts';
+import { useFigureClickHandler } from 'features/checkers/libs/hooks/useFigureClickHandler.ts';
 import type { IFigure } from '../../model/types.ts';
 import Crown from 'shared/assets/crown.svg?react';
 

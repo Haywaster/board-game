@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, memo, useState } from 'react';
 import module from './Switch.module.scss'
 import { classNames } from '../../libs/classNames.ts';
 export interface ISwitch {
@@ -10,7 +10,7 @@ export interface ISwitch {
 
 interface IProps extends ISwitch{}
 
-const Switch: FC<IProps> = ({
+const Switch: FC<IProps> = memo(({
 	id,
 	initialChecked = false,
 	onChange,
@@ -40,6 +40,6 @@ const Switch: FC<IProps> = ({
 			{label}
 		</label>
 	)
-}
+})
 
 export default Switch

@@ -1,8 +1,8 @@
 import type { ICell, IFigure, IFigureKillAction, IKillOrderSchema, IKillSchema } from 'entities/Cell/model/types.ts';
-import { filterCellByDiagonal } from 'features/checkers/libs/utils/filterCellByDiagonal.ts';
-import { sortCellsByFar } from 'features/checkers/libs/utils/sortCellsByFar.ts';
-import { splitCellByDirections } from 'features/checkers/libs/utils/splitCellByDirections.ts';
-import { removeRestCells } from 'features/checkers/libs/utils/removeRestCells.ts';
+import { filterCellByDiagonal } from 'features/checkers/libs/utils/common/filterCellByDiagonal.ts';
+import { sortCellsByFar } from 'features/checkers/libs/utils/common/sortCellsByFar.ts';
+import { splitCellByDirections } from 'features/checkers/libs/utils/common/splitCellByDirections.ts';
+import { removeRestCells } from 'features/checkers/libs/utils/common/removeRestCells.ts';
 
 export const calcKillFigureAction = (cells: ICell[], findFigure: IFigure, findCell: ICell) => {
 	const killOrderArr: IKillOrderSchema[] = [];
