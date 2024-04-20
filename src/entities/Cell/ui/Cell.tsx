@@ -9,15 +9,15 @@ import module from './Cell.module.scss';
 interface IProps extends ICell {}
 
 export const Cell: FC<IProps> = memo((cell) => {
-	const {id, color, figure} = cell;
-	const active = useIsActiveCell(id);
-	const handleActiveCell = useCellClickHandler(id)
+  const {id, color, figure} = cell;
+  const active = useIsActiveCell(id);
+  const handleActiveCell = useCellClickHandler(id)
 	
-	return (
-		<li
-			onClick={handleActiveCell}
-			className={classNames(module.Cell, { active }, [module[color]])}>
-			{figure && <Figure {...figure}/>}
-		</li>
-	);
+  return (
+    <li
+      onClick={handleActiveCell}
+      className={classNames(module.Cell, { active }, [module[color]])}>
+      {figure && <Figure {...figure}/>}
+    </li>
+  );
 });

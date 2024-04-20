@@ -8,18 +8,18 @@ import Crown from 'shared/assets/crown.svg?react';
 interface IProps extends IFigure {}
 
 export const Figure: FC<IProps> = memo((figure) => {
-	const { active, onFigureClick } = useFigureClickHandler(figure);
+  const { active, onFigureClick } = useFigureClickHandler(figure);
 	
-	return (
-		<div
-			onClick={ onFigureClick }
-			className={
-				classNames(
-					module.Figure,
-					{ active },
-					[module[figure.color]])
-			}>
-			{ figure.isStain && <Crown/> }
-		</div>
-	);
+  return (
+    <div
+      onClick={ onFigureClick }
+      className={
+        classNames(
+          module.Figure,
+          { active },
+          [module[figure.color]])
+      }>
+      { figure.isStain && <Crown/> }
+    </div>
+  );
 });

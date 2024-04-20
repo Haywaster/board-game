@@ -4,55 +4,55 @@ import { sortCellsByFar } from 'features/checkers/libs/utils/common/sortCellsByF
 import { filterCellByDiagonal } from 'features/checkers/libs/utils/common/filterCellByDiagonal.ts';
 
 const commonFigureLogic = (cells: ICell[], findFigure: IFigure) => {
-	const emptyNearNeighboursCell = cells.filter(cell => {
-		const whiteCondition = findFigure.color === 'white' && cell.y > findFigure.y;
-		const blackCondition = findFigure.color === 'black' && cell.y < findFigure.y;
-		return !cell.figure && (
-				whiteCondition || blackCondition) && Math.abs(cell.x - findFigure.x) === 1 &&
+  const emptyNearNeighboursCell = cells.filter(cell => {
+    const whiteCondition = findFigure.color === 'white' && cell.y > findFigure.y;
+    const blackCondition = findFigure.color === 'black' && cell.y < findFigure.y;
+    return !cell.figure && (
+      whiteCondition || blackCondition) && Math.abs(cell.x - findFigure.x) === 1 &&
 			Math.abs(cell.y - findFigure.y) === 1;
-	});
+  });
 	
-	if (emptyNearNeighboursCell.length) {
-		const action: IFigureMoveAction = {
-			type: 'move',
-			cells: emptyNearNeighboursCell
-		};
+  if (emptyNearNeighboursCell.length) {
+    const action: IFigureMoveAction = {
+      type: 'move',
+      cells: emptyNearNeighboursCell
+    };
 		
-		return action;
-	}
+    return action;
+  }
 };
 
 const stainFigureLogic = (cells: ICell[], findFigure: IFigure) => {
-	const diagonalCells = filterCellByDiagonal(cells, findFigure);
-	const sortedCells = sortCellsByFar(diagonalCells, findFigure);
-	const cellsByDirections = splitCellByDirections(sortedCells, findFigure);
+  const diagonalCells = filterCellByDiagonal(cells, findFigure);
+  const sortedCells = sortCellsByFar(diagonalCells, findFigure);
+  const cellsByDirections = splitCellByDirections(sortedCells, findFigure);
 	
-	const emptyAllNeighboursCell: ICell[] = [];
+  const emptyAllNeighboursCell: ICell[] = [];
 	
-	cellsByDirections.forEach(direction => {
-		for (const cell of direction) {
-			if (!cell.figure) {
-				emptyAllNeighboursCell.push(cell);
-			} else {
-				break;
-			}
-		}
-	});
+  cellsByDirections.forEach(direction => {
+    for (const cell of direction) {
+      if (!cell.figure) {
+        emptyAllNeighboursCell.push(cell);
+      } else {
+        break;
+      }
+    }
+  });
 	
-	if (emptyAllNeighboursCell.length) {
-		const action: IFigureMoveAction = {
-			type: 'move',
-			cells: emptyAllNeighboursCell
-		};
+  if (emptyAllNeighboursCell.length) {
+    const action: IFigureMoveAction = {
+      type: 'move',
+      cells: emptyAllNeighboursCell
+    };
 		
-		return action;
-	}
+    return action;
+  }
 };
 
 export const calcMoveFigureAction = (cells: ICell[], findFigure: IFigure) => {
-	if (!findFigure.isStain) {
-		return commonFigureLogic(cells, findFigure);
-	} else {
-		return stainFigureLogic(cells, findFigure);
-	}
+  if (!findFigure.isStain) {
+    return commonFigureLogic(cells, findFigure);
+  } else {
+    return stainFigureLogic(cells, findFigure);
+  }
 };

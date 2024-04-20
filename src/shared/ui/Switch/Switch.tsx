@@ -11,35 +11,35 @@ export interface ISwitch {
 interface IProps extends ISwitch{}
 
 const Switch: FC<IProps> = memo(({
-	id,
-	initialChecked = false,
-	onChange,
-	label,
+  id,
+  initialChecked = false,
+  onChange,
+  label,
 }) => {
-	const [checked, setChecked] = useState(initialChecked)
+  const [checked, setChecked] = useState(initialChecked)
 	
-	const toggleSwitch = () => {
-		setChecked((prev) => !prev)
+  const toggleSwitch = () => {
+    setChecked((prev) => !prev)
 		
-		if (onChange) {
-			onChange({ id, checked: !checked })
-		}
-	}
+    if (onChange) {
+      onChange({ id, checked: !checked })
+    }
+  }
 	
-	return (
-		<label className={classNames(module.Switch, {checked}, [])}>
-			<input
-				type="checkbox"
-				checked={checked}
-				onChange={toggleSwitch}
-				className={module.Input}
-			/>
-			<div className={module.Track}>
-				<div className={module.Toggle} />
-			</div>
-			{label}
-		</label>
-	)
+  return (
+    <label className={classNames(module.Switch, {checked}, [])}>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={toggleSwitch}
+        className={module.Input}
+      />
+      <div className={module.Track}>
+        <div className={module.Toggle} />
+      </div>
+      {label}
+    </label>
+  )
 })
 
 export default Switch

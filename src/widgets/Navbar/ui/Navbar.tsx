@@ -8,10 +8,10 @@ interface IProps {
 }
 
 export const Navbar: FC<IProps> = ({className}) => {
-	return (
-		<nav className={classNames(module.Navbar, {}, [className])}>
-			<h1>Welcome to checkers!</h1>
-			<NavButtons/>
-		</nav>
-	);
+  return (
+    <nav className={classNames(module.Navbar, {}, [className])}>
+      <h1>Welcome to checkers!</h1>
+      <NavButtons/>
+    </nav>
+  );
 };

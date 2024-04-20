@@ -5,9 +5,9 @@ import { RulesProvider } from 'app/providers/RulesProvider';
 import './styles/index.scss'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-	<ThemeProvider>
-		<RulesProvider>
-			<App/>
-		</RulesProvider>
-	</ThemeProvider>
+  <ThemeProvider>
+    <RulesProvider>
+      <App/>
+    </RulesProvider>
+  </ThemeProvider>
 )

@@ -6,7 +6,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts'],
   parser: '@typescript-eslint/parser',
 	parserOptions: {
 		project: true
@@ -14,6 +14,7 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
 	  "@typescript-eslint/no-unused-vars": "warn",
+	  indent: [2, 2],
 	  "@typescript-eslint/consistent-type-exports": "error",
 	  'react-refresh/only-export-components': [
       'warn',

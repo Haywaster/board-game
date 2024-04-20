@@ -6,18 +6,18 @@ import module from './Board.module.scss'
 import { useFigure } from 'app/providers/FigureProvider';
 
 export const Board: FC = () => {
-	const {isWhiteStep} = useFigure()
+  const {isWhiteStep} = useFigure()
 	
-	const color = isWhiteStep ? 'White' : 'Black'
+  const color = isWhiteStep ? 'White' : 'Black'
 	
-	return (
-		<main>
-			<p className={module.TextMove}><span>{color}'s</span> move</p>
-			<div className={module.Wrapper}>
-				<Column/>
-				<CheckersBoard/>
-				<Row/>
-			</div>
-		</main>
-	);
+  return (
+    <main>
+      <p className={module.TextMove}><span>{color}'s</span> move</p>
+      <div className={module.Wrapper}>
+        <Column/>
+        <CheckersBoard/>
+        <Row/>
+      </div>
+    </main>
+  );
 };

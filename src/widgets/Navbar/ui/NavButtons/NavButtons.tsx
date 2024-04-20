@@ -5,24 +5,24 @@ import module from '../Navbar.module.scss';
 import CheckersSettings from 'features/checkers/ui/CheckersSettings/CheckersSettings.tsx';
 
 const NavButtons: FC = () => {
-	const { theme, toggleTheme } = useTheme();
-	const [openModal, setOpenModal] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const [openModal, setOpenModal] = useState(false);
 	
-	const closeHandler = () => {
-		setOpenModal(false);
-	};
+  const closeHandler = () => {
+    setOpenModal(false);
+  };
 	
-	const openHandler = () => {
-		setOpenModal(true);
-	};
+  const openHandler = () => {
+    setOpenModal(true);
+  };
 	
-	return (
-		<div className={ module.btnWrapper }>
-			<Button onClick={ toggleTheme }>{ theme }</Button>
-			<Button onClick={ openHandler }>settings</Button>
-			<CheckersSettings openModal={ openModal } closeHandler={ closeHandler }/>
-		</div>
-	);
+  return (
+    <div className={ module.btnWrapper }>
+      <Button onClick={ toggleTheme }>{ theme }</Button>
+      <Button onClick={ openHandler }>settings</Button>
+      <CheckersSettings openModal={ openModal } closeHandler={ closeHandler }/>
+    </div>
+  );
 };
 
 export default NavButtons;
