@@ -1,29 +1,32 @@
 import type { IFigure } from 'entities/Cell/model/types.ts';
 import { useFigure } from 'app/providers/FigureProvider';
 import { useCalcFigureActions } from './useCalcFigureActions.ts';
+import { useCallback } from 'react';
 
-export const useFigureClickHandler = (figure: IFigure) => {
-  const { id, color } = figure;
-  const { activeFigure, setActiveFigure, isWhiteStep } = useFigure();
+export const useFigureClickHandler = () => {
+  const { setActiveFigure, isWhiteStep, activeFigure } = useFigure();
   const { getFigureActions } = useCalcFigureActions();
 	
-  const onFigureClick = () => {
-    const whiteLaw = isWhiteStep && color === 'white';
-    const blackLaw = !isWhiteStep && color === 'black';
-		
-    if ((
-      whiteLaw || blackLaw) &&
-			(!activeFigure || activeFigure.figure.id !== id)) {
-      const actionsActiveFigure = getFigureActions(id);
-      setActiveFigure({ figure, actions: actionsActiveFigure });
-    }
-		
-    if (activeFigure && activeFigure.figure.id === id) {
-      setActiveFigure(null);
-    }
-  };
+  const onFigureClick = useCallback((figure: IFigure) => {
+    const whiteLaw = isWhiteStep && figure.color === 'white';
+    const blackLaw = !isWhiteStep && figure.color === 'black';
+    
+    setActiveFigure(activeFigure => {
+      if ((whiteLaw || blackLaw) && (!activeFigure || activeFigure.figure.id !== figure.id)) {
+        const actionsActiveFigure = getFigureActions(figure.id);
+        return { figure, actions: actionsActiveFigure };
+      }
+      
+      if (activeFigure && activeFigure.figure.id === figure.id) {
+        return null;
+      }
+      
+      return activeFigure
+    });
+    
+  }, [getFigureActions, isWhiteStep, setActiveFigure])
 	
-  const active = activeFigure?.figure.id === id;
+  const isActiveFigure = (id: number | undefined) => activeFigure?.figure.id === id;
 	
-  return { onFigureClick, active };
+  return { onFigureClick, isActiveFigure };
 };

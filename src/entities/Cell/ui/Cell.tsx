@@ -1,23 +1,28 @@
 import { FC, memo } from 'react';
-import type { ICell } from '../model/types.ts';
-import { classNames } from 'shared/libs/classNames.ts';
+import type { ICell, IFigure } from '../model/types.ts';
 import { Figure } from '../ui/Figure/Figure.tsx';
-import { useIsActiveCell } from 'features/checkers/libs/hooks/useIsActiveCell.ts';
-import { useCellClickHandler } from 'features/checkers/libs/hooks/useCellClickHandler.ts';
 import module from './Cell.module.scss';
+import { classNames } from 'shared/libs/classNames.ts';
 
-interface IProps extends ICell {}
+interface IProps extends ICell {
+  isActiveCell: boolean
+  onCellClick: (id: number) => void
+  isActiveFigure: boolean,
+  onFigureClick: (figure: IFigure) => void
+}
 
-export const Cell: FC<IProps> = memo((cell) => {
-  const {id, color, figure} = cell;
-  const active = useIsActiveCell(id);
-  const handleActiveCell = useCellClickHandler(id)
-	
+export const Cell: FC<IProps> = memo(({ color, id, figure, isActiveCell, onCellClick, onFigureClick, isActiveFigure }) => {
   return (
     <li
-      onClick={handleActiveCell}
-      className={classNames(module.Cell, { active }, [module[color]])}>
-      {figure && <Figure {...figure}/>}
+      onClick={() => onCellClick(id)}
+      className={ classNames(module.Cell, { active: isActiveCell }, [module[color]]) }>
+      { figure && (
+        <Figure
+          isActiveFigure={ isActiveFigure }
+          onFigureClick={ onFigureClick }
+          { ...figure }
+        />
+      ) }
     </li>
   );
 });

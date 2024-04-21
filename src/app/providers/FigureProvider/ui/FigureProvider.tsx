@@ -4,10 +4,8 @@ import { getCells } from 'features/checkers/libs/utils/common/getCells.ts';
 import type { IActiveFigure, ICell } from 'entities/Cell';
 
 export const FigureProvider: FC<PropsWithChildren> = ({ children }) => {
-  const initialCells = useMemo(() => getCells(), []);
-	
   const [isWhiteStep, setIsWhiteStep] = useState<boolean>(true);
-  const [cells, setCells] = useState<ICell[]>(initialCells)
+  const [cells, setCells] = useState<ICell[]>(getCells())
   const [activeFigure, setActiveFigure] = useState<IActiveFigure | null>(null);
 	
   const defaultActiveFigureValue = useMemo(() => (
@@ -24,7 +22,7 @@ export const FigureProvider: FC<PropsWithChildren> = ({ children }) => {
     {
       isWhiteStep, setIsWhiteStep
     }), [isWhiteStep])
-	
+
   return (
     <FigureContext.Provider value={
       {
