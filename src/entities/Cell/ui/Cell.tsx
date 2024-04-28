@@ -5,19 +5,30 @@ import module from './Cell.module.scss';
 import { classNames } from 'shared/libs/classNames.ts';
 
 interface IProps extends Omit<ICell, 'x' | 'y'> {
-  isActiveCell: boolean
-  onCellClick: (id: number) => void
-  isActiveFigure: boolean,
-  onFigureClick: (figure: IFigure) => void
+  isActiveCell: boolean;
+  onCellClick: (id: number) => void;
+  isActiveFigure: boolean;
+  isRequireFigure: boolean;
+  onFigureClick: (figure: IFigure) => void;
 }
 
-export const Cell: FC<IProps> = memo(({ color, id, figure, isActiveCell, onCellClick, onFigureClick, isActiveFigure }) => {
+export const Cell: FC<IProps> = memo(({
+  color,
+  id,
+  figure,
+  isActiveCell,
+  onCellClick,
+  onFigureClick,
+  isActiveFigure,
+  isRequireFigure
+}) => {
   return (
     <li
-      onClick={() => onCellClick(id)}
+      onClick={ () => onCellClick(id) }
       className={ classNames(module.Cell, { active: isActiveCell }, [module[color]]) }>
       { figure && (
         <Figure
+          isRequireFigure={ isRequireFigure }
           isActiveFigure={ isActiveFigure }
           onFigureClick={ onFigureClick }
           { ...figure }

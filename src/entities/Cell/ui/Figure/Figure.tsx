@@ -6,14 +6,20 @@ import { classNames } from 'shared/libs/classNames.ts';
 
 interface IProps extends IFigure {
   isActiveFigure: boolean;
+  isRequireFigure: boolean
   onFigureClick: (figure: IFigure) => void;
 }
 
-export const Figure: FC<IProps> = memo(({ isActiveFigure, onFigureClick, ...figure }) => {
+export const Figure: FC<IProps> = memo(({ isActiveFigure, isRequireFigure, onFigureClick, ...figure }) => {
+  const mods = {
+    [module.require]: isRequireFigure,
+    [module.active]: isActiveFigure
+  }
+  
   return (
     <div
       onClick={ () => onFigureClick(figure) }
-      className={ classNames(module.Figure, {active: isActiveFigure}, [module[figure.color]]) }
+      className={ classNames(module.Figure, mods, [module[figure.color]]) }
     >
       { figure.isStain && <Crown/> }
     </div>
