@@ -1,5 +1,4 @@
-import type { IFigure } from 'entities/Cell/model/types.ts';
-import { IFigureAction } from 'entities/Cell/model/types.ts';
+import type { IFigure, IFigureAction } from 'entities/Cell/model/types.ts';
 import { useFigure } from 'app/providers/FigureProvider';
 import { useCallback } from 'react';
 import { calcMoveFigureAction } from '../utils/calcMoveFigureAction.ts';
@@ -8,7 +7,7 @@ import { useRules } from 'app/providers/RulesProvider';
 import { CheckersRuleId } from '../../models/rules.ts';
 
 export const useFigureClickHandler = () => {
-  const { checkersRules} = useRules()
+  const { checkersRules } = useRules()
   const { cells, setActiveFigure, isWhiteStep, activeFigure } = useFigure();
   
   const getFigureActions = useCallback((figureId: number): IFigureAction[] => {
@@ -18,7 +17,7 @@ export const useFigureClickHandler = () => {
     
     if (findCell && findFigure) {
       const moveAction = calcMoveFigureAction(cells, findFigure);
-      const killAction = calcKillFigureAction(cells, findFigure, findCell);
+      const killAction = calcKillFigureAction(cells, findCell, checkersRules);
       
       if (moveAction) {
         actions.push(moveAction);

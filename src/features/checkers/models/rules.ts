@@ -4,7 +4,8 @@ export type CheckersRule = Omit<ISwitch, 'onChange'> & { checked: boolean }
 
 export enum CheckersRuleId {
   REQUIRE_KILL = 'require_kill',
-  PROMPTS = 'prompts'
+  PROMPTS = 'prompts',
+  BACK_KILL = 'back_kill'
 }
 
 export const checkersRules: CheckersRule[] = [
@@ -18,4 +19,9 @@ export const checkersRules: CheckersRule[] = [
     id: CheckersRuleId.PROMPTS,
     checked: true
   },
+  {
+    label: 'Back kill',
+    id: CheckersRuleId.BACK_KILL,
+    checked: true
+  }
 ]
