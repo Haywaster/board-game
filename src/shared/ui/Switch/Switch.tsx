@@ -1,6 +1,7 @@
 import { FC, memo, useState } from 'react';
 import module from './Switch.module.scss'
 import { classNames } from '../../libs/classNames.ts';
+
 export interface ISwitch {
 	onChange: ({ id, checked }: { id: string; checked: boolean }) => void
 	initialChecked?: boolean

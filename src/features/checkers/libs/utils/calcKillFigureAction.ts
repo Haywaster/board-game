@@ -7,8 +7,8 @@ import { removeRestCells } from 'features/checkers/libs/utils/common/removeRestC
 export const calcKillFigureAction = (cells: ICell[], findFigure: IFigure, findCell: ICell) => {
   const killOrderArr: IKillOrderSchema[] = [];
   const visitedCells = new Set<number>();
-	
-  const getOrderKill = (currentCell: ICell, orderArr: IKillSchema[], isStain?: boolean): void => {
+  
+  const getOrderKill = (currentCell: ICell, orderArr: IKillSchema[], isStain: boolean): void => {
     if (visitedCells.has(currentCell.id)) return;
     visitedCells.add(currentCell.id);
 		
@@ -16,48 +16,50 @@ export const calcKillFigureAction = (cells: ICell[], findFigure: IFigure, findCe
     const sortedCells = sortCellsByFar(diagonalCells, currentCell);
     const cellsByDirections = splitCellByDirections(sortedCells, currentCell);
     const interestedCells = removeRestCells(cellsByDirections);
-		
+    
     interestedCells.forEach(direction => {
-      const pastDirection = [...visitedCells][[...visitedCells].length - 2];
-      if (pastDirection) {
-        const findDirection = direction.find(cell => cell.id === pastDirection);
-        if (findDirection) return;
+      const previousCellId = [...visitedCells][[...visitedCells].length - 2];
+      
+      if (direction.some(cell => cell.id === previousCellId) || previousCellId === currentCell.id) {
+        return;
       }
 			
-      const action = {} as IKillSchema;
+      let killFigure: IFigure | null = null
 			
       direction.forEach((cell, index) => {
-        if (!action.figure && cell.figure && cell.figure.color !== findFigure.color) {
+        if (!killFigure && cell.figure && cell.figure.color !== findFigure.color) {
           if (index === 0 || isStain && direction.slice(0, index).every(sliceCell => !sliceCell.figure)) {
-            action.figure = cell.figure;
+            killFigure = cell.figure;
             return;
           }
         }
-        if (action.figure && !cell.figure) {
-          if (!isStain && index === 1) {
-            action.cell = cell;
-						
-            if (!visitedCells.has(cell.id) || [...visitedCells][0] === cell.id) {
+        if (killFigure && !cell.figure) {
+          if (!isStain) {
+            if (index === 1 && !visitedCells.has(cell.id) || [...visitedCells][0] === cell.id) {
               const potentialStain = cell.y === 8 && findFigure.color === 'white' || cell.y === 1 &&
 								findFigure.color === 'black';
+              const action: IKillSchema = {
+                figure: killFigure, cell
+              }
               const newArr = [...orderArr, action];
               const killOrder: IKillOrderSchema = {
                 killOrder: newArr,
                 makeStain: potentialStain
               };
               killOrderArr.push(killOrder);
-              getOrderKill(action.cell, newArr, potentialStain);
+              getOrderKill(cell, newArr, potentialStain);
             }
-          }
-					
-          if (isStain) {
-            const newArr = [...orderArr, { ...action, cell }];
+          } else {
+            const action: IKillSchema = {
+              figure: killFigure, cell
+            }
+            const newArr = [...orderArr, action];
             const killOrder: IKillOrderSchema = {
               killOrder: newArr,
-              makeStain: isStain
+              makeStain: true
             };
             killOrderArr.push(killOrder);
-            getOrderKill(cell, newArr);
+            getOrderKill(cell, newArr, true);
           }
         }
       });
@@ -65,7 +67,7 @@ export const calcKillFigureAction = (cells: ICell[], findFigure: IFigure, findCe
   };
 	
   getOrderKill(findCell, [], findFigure.isStain);
-	
+  
   if (killOrderArr.length) {
     const action: IFigureKillAction = {
       type: 'kill',
