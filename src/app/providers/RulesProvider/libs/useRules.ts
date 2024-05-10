@@ -1,6 +1,6 @@
+import type { CheckersRuleId } from 'features/checkers/models/rules.ts';
 import { useContext, useMemo } from 'react';
 import { RulesContext, RulesContextProps } from './RulesContext.ts';
-import { CheckersRuleId } from '../../../../features/checkers/models/rules.ts';
 
 export type CheckersRuleConfig = Record<CheckersRuleId, boolean>
 

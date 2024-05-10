@@ -1,5 +1,5 @@
-import { createContext, Dispatch, SetStateAction } from 'react';
 import type { IActiveFigure, ICell } from 'entities/Cell';
+import { createContext, Dispatch, SetStateAction } from 'react';
 
 export interface FigureContextProps {
 	activeFigure: IActiveFigure | null

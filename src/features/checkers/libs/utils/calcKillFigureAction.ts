@@ -1,9 +1,9 @@
-import type { ICell, IFigure, IFigureKillAction, IKillOrderSchema, IKillSchema } from 'entities/Cell/model/types.ts';
+import type { ICell, IFigure, IFigureKillAction, IKillOrderSchema, IKillSchema } from 'entities/Cell';
 import type { CheckersRuleConfig } from 'app/providers/RulesProvider';
-import { filterCellByDiagonal } from 'features/checkers/libs/utils/common/filterCellByDiagonal.ts';
-import { sortCellsByFar } from 'features/checkers/libs/utils/common/sortCellsByFar.ts';
-import { splitCellByDirections } from 'features/checkers/libs/utils/common/splitCellByDirections.ts';
-import { removeRestCells } from 'features/checkers/libs/utils/common/removeRestCells.ts';
+import { filterCellByDiagonal } from './common/filterCellByDiagonal.ts';
+import { sortCellsByFar } from './common/sortCellsByFar.ts';
+import { splitCellByDirections } from './common/splitCellByDirections.ts';
+import { removeRestCells } from './common/removeRestCells.ts';
 
 export const calcKillFigureAction = (cells: ICell[], findCell: ICell, clearRules: CheckersRuleConfig) => {
   const findFigure = findCell.figure as IFigure;

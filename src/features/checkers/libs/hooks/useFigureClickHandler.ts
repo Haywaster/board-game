@@ -1,5 +1,5 @@
+import type { IFigure } from 'entities/Cell';
 import { useCallback } from 'react';
-import type { IFigure } from 'entities/Cell/model/types.ts';
 import { useFigure } from 'app/providers/FigureProvider';
 import { useRules } from 'app/providers/RulesProvider';
 import { getFigureActions } from '../utils/getFigureActions.ts';

@@ -1,5 +1,5 @@
-import { useContext } from 'react';
 import { FigureContext, FigureContextProps } from './FigureContext.ts';
+import { useContext } from 'react';
 
 export const useFigure = () => {
   const

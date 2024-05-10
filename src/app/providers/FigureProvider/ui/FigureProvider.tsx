@@ -1,7 +1,7 @@
+import type { IActiveFigure, ICell } from 'entities/Cell';
 import { FC, PropsWithChildren, useMemo, useState } from 'react';
 import { FigureContext } from '../libs/FigureContext.ts';
 import { getCells } from 'features/checkers/libs/utils/common/getCells.ts';
-import type { IActiveFigure, ICell } from 'entities/Cell';
 
 export const FigureProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isWhiteStep, setIsWhiteStep] = useState<boolean>(true);

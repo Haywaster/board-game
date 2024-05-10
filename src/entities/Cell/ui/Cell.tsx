@@ -1,5 +1,5 @@
-import { FC, memo } from 'react';
 import type { ICell, IFigure } from '../model/types.ts';
+import { FC, memo } from 'react';
 import { Figure } from '../ui/Figure/Figure.tsx';
 import module from './Cell.module.scss';
 import { classNames } from 'shared/libs/classNames.ts';
