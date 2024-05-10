@@ -1,8 +1,10 @@
-import type { IKillSchema } from 'entities/Cell';
-import { useFigure } from 'app/providers/FigureProvider';
+import type { IFigureKillAction, IKillSchema } from 'entities/Cell';
 import { useCallback } from 'react';
+import { useFigure } from 'app/providers/FigureProvider';
+import { useRules } from 'app/providers/RulesProvider';
 
 export const useCellClickHandler = () => {
+  const { clearRules } = useRules()
   const { activeFigure, setCells, setActiveFigure, setIsWhiteStep } = useFigure();
   
   const moveFigure = useCallback((cellId: number, makeStain?: boolean): void => {
@@ -39,7 +41,7 @@ export const useCellClickHandler = () => {
   }, [setCells])
   
   const onCellClick = useCallback((id: number): void => {
-    activeFigure?.actions.find(action => {
+    activeFigure?.actions.forEach(action => {
       switch (action.type) {
       case 'move': {
         if (action.cells.some(cell => cell.id === id)) {
@@ -53,13 +55,15 @@ export const useCellClickHandler = () => {
           const chosenCellIndex = chosenOrder.killOrder.findIndex(({cell}) => cell.id === id)
           const slicedOrder = chosenOrder.killOrder.slice(0, chosenCellIndex + 1);
           
-          killFigure(slicedOrder);
-          moveFigure(id, chosenOrder.makeStain);
+          if (!clearRules.kill_max_figure || clearRules.kill_max_figure && chosenCellIndex === chosenOrder.killOrder.length - 1) {
+            killFigure(slicedOrder);
+            moveFigure(id, chosenOrder.makeStain);
+          }
         }
       }
       }
     });
-  }, [activeFigure?.actions, killFigure, moveFigure])
+  }, [activeFigure?.actions, clearRules.kill_max_figure, killFigure, moveFigure])
   
   const isActiveCell = useCallback((cellId: number): boolean => {
     if (!activeFigure) return false;
@@ -76,5 +80,23 @@ export const useCellClickHandler = () => {
     });
   }, [activeFigure])
   
-  return { onCellClick, isActiveCell };
+  const isSkipCell = (id: number): boolean => {
+    if (clearRules.kill_max_figure) {
+      const killAction = activeFigure?.actions.find((action): action is IFigureKillAction => action.type === 'kill');
+      
+      if (killAction) {
+        const chosenOrder = killAction.actions.find(({ killOrder }) => killOrder.some(({ cell }) => cell.id === id));
+        
+        if (chosenOrder) {
+          const chosenCellIndex = chosenOrder.killOrder.findIndex(({ cell }) => cell.id === id)
+          
+          return chosenCellIndex !== chosenOrder.killOrder.length - 1;
+        }
+      }
+    }
+    
+    return false
+  }
+  
+  return { onCellClick, isActiveCell, isSkipCell };
 };

@@ -7,7 +7,11 @@
   }
 }
 
-.Wrapper {
+.GameWrapper {
+  width: fit-content;
+}
+
+.BoardWrapper {
   display: grid;
   width: fit-content;
 }
@@ -30,10 +34,94 @@
   }
 }
 
+.GameInfo {
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+}
+
 .TextMove {
   font: var(--font-l);
+  grid-column: 2 / 3;
 
   span {
     font-weight: 600;
+  }
+}
+
+.Counter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: flex-end;
+}
+
+.CounterItem {
+  display: flex;
+
+  &.white {
+    & > .Common {
+      &:after {
+        background-color: var(--figure-white);
+      }
+    }
+
+    & > .Stain {
+      svg {
+        background-color: var(--figure-white);
+      }
+    }
+  }
+
+  &.black {
+    & > .Common {
+      &:after {
+        background-color: var(--figure-black);
+      }
+    }
+
+    & > .Stain {
+      svg {
+        background-color: var(--figure-black);
+
+        path {
+          fill: var(--figure-white);
+        }
+      }
+    }
+  }
+
+  & > span {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  & > .Common {
+    &:after {
+      content: '';
+      display: flex;
+      height: 1rem;
+      aspect-ratio: 1 / 1;
+      border-radius: 100%;
+    }
+  }
+
+  & > .Stain {
+    &:after {
+      display: none;
+    }
+
+    svg {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 1rem;
+      width: auto;
+      border-radius: 100%;
+
+      path {
+        transform: scale(0.7) translate(23%, 20%);
+      }
+    }
   }
 }

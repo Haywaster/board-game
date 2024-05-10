@@ -49,29 +49,7 @@ export const calcKillFigureAction = (cells: ICell[], findCell: ICell, clearRules
               const potentialStain = cell.y === 8 && findFigure.color === 'white' || cell.y === 1 &&
                 findFigure.color === 'black';
               
-              if (potentialStain) {
-                visitedCells.pop();
-                
-                const action: IKillSchema = {
-                  figure: killFigure, cell
-                };
-                
-                const newArr = [...orderArr, action];
-                
-                if (killOrderArr.some(({ killOrder }) => killOrder.some(({ cell }) => cell.id === currentCell.id))) {
-                  return;
-                }
-                
-                const newKillOrder: IKillOrderSchema = {
-                  killOrder: newArr,
-                  makeStain: isStain
-                };
-                
-                killOrderArr.push(newKillOrder);
-                return getOrderKill(cell, [], true);
-              }
-              
-              return prepareAction(cell, killFigure, orderArr, false);
+              return prepareAction(cell, killFigure, orderArr, potentialStain);
             }
           } else {
             return prepareAction(cell, killFigure, orderArr, true);
@@ -98,9 +76,16 @@ export const calcKillFigureAction = (cells: ICell[], findCell: ICell, clearRules
   getOrderKill(findCell, [], findFigure.isStain);
   
   if (killOrderArr.length) {
+    let actions = killOrderArr;
+    
+    if (clearRules.require_kill || clearRules.kill_max_figure) {
+      const maxLength = Math.max(...killOrderArr.map(({killOrder}) => killOrder.length));
+      actions = killOrderArr.filter(({killOrder}) => killOrder.length === maxLength);
+    }
+    
     const action: IFigureKillAction = {
       type: 'kill',
-      actions: killOrderArr
+      actions: actions
     };
     
     return action;

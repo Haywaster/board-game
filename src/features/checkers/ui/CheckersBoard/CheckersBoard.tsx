@@ -13,7 +13,7 @@ export const CheckersBoard: FC = memo(() => {
   const { cells, isWhiteStep } = useFigure();
   const [requireKillFigures, setRequireKillFigures] = useState<number[]>([]);
   const { isActiveFigure, onFigureClick } = useFigureClickHandler(requireKillFigures);
-  const { isActiveCell, onCellClick } = useCellClickHandler();
+  const { isActiveCell, isSkipCell, onCellClick } = useCellClickHandler();
   
   const setKillerFigures = useCallback((): void => {
     setRequireKillFigures([]);
@@ -41,7 +41,7 @@ export const CheckersBoard: FC = memo(() => {
     [module.withoutPrompts]: !clearRules.prompts
   };
   
-  const isRequireFigure = (id: number | undefined) => id ? requireKillFigures.includes(id) : false;
+  const isRequireFigure = (id: number | undefined): boolean => id ? requireKillFigures.includes(id) : false;
   
   return (
     <ul className={ classNames(module.Board, mods, []) }>
@@ -49,6 +49,7 @@ export const CheckersBoard: FC = memo(() => {
         <Cell
           key={ cell.id }
           isActiveCell={ isActiveCell(cell.id) }
+          isSkipCell={ isSkipCell(cell.id) }
           onCellClick={ onCellClick }
           isActiveFigure={ isActiveFigure(cell.figure?.id) }
           isRequireFigure={ isRequireFigure(cell.figure?.id) }

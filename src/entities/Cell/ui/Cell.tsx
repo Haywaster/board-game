@@ -6,6 +6,7 @@ import { classNames } from 'shared/libs/classNames.ts';
 
 interface IProps extends Omit<ICell, 'x' | 'y'> {
   isActiveCell: boolean;
+  isSkipCell: boolean;
   onCellClick: (id: number) => void;
   isActiveFigure: boolean;
   isRequireFigure: boolean;
@@ -17,15 +18,21 @@ export const Cell: FC<IProps> = memo(({
   id,
   figure,
   isActiveCell,
+  isSkipCell,
   onCellClick,
   onFigureClick,
   isActiveFigure,
   isRequireFigure
 }) => {
+  const mods = {
+    active: isActiveCell,
+    skip: isSkipCell
+  }
+  
   return (
     <li
       onClick={ () => onCellClick(id) }
-      className={ classNames(module.Cell, { active: isActiveCell }, [module[color]]) }>
+      className={ classNames(module.Cell, mods, [module[color]]) }>
       { figure && (
         <Figure
           isRequireFigure={ isRequireFigure }

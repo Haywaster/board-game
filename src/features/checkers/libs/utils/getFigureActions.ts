@@ -11,7 +11,7 @@ export const getFigureActions = (cells: ICell[], figureId: number, clearRules: C
   if (findCell && findFigure) {
     const moveAction = calcMoveFigureAction(cells, findFigure);
     const killAction = calcKillFigureAction(cells, findCell, clearRules);
-    // const killAction = undefined
+    
     if (moveAction) {
       actions.push(moveAction);
     }

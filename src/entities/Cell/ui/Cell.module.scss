@@ -5,7 +5,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: red;
 
   &.black {
     background-color: var(--cell-black);
@@ -25,9 +24,17 @@
       left: 50%;
       width: 10px;
       height: 10px;
-      background-color: red;
+      background-color: var(--active);
       transform: translate(-50%, -50%);
       border-radius: 50%;
+    }
+  }
+
+  &:global(.skip) {
+    cursor: default;
+
+    &:before {
+      background-color: var(--figure-white);
     }
   }
 }
