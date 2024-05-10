@@ -26,7 +26,6 @@ const stainFigureLogic = (cells: ICell[], findFigure: IFigure) => {
   const diagonalCells = filterCellByDiagonal(cells, findFigure);
   const sortedCells = sortCellsByFar(diagonalCells, findFigure);
   const cellsByDirections = splitCellByDirections(sortedCells, findFigure);
-	
   const emptyAllNeighboursCell: ICell[] = [];
 	
   cellsByDirections.forEach(direction => {

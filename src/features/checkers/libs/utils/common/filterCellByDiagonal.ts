@@ -7,7 +7,7 @@ export const filterCellByDiagonal = (cells: ICell[], main: IFigure | ICell) => {
         return false;
       }
     } else {
-      if (main.id === cell.id) {
+      if (cell.figure && main.id === cell.figure.id) {
         return false;
       }
     }

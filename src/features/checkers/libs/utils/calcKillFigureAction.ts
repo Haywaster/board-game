@@ -1,41 +1,36 @@
 import type { ICell, IFigure, IFigureKillAction, IKillOrderSchema, IKillSchema } from 'entities/Cell/model/types.ts';
-import type { CheckersRule } from '../../models/rules.ts';
+import type { CheckersRuleConfig } from 'app/providers/RulesProvider';
 import { filterCellByDiagonal } from 'features/checkers/libs/utils/common/filterCellByDiagonal.ts';
 import { sortCellsByFar } from 'features/checkers/libs/utils/common/sortCellsByFar.ts';
 import { splitCellByDirections } from 'features/checkers/libs/utils/common/splitCellByDirections.ts';
 import { removeRestCells } from 'features/checkers/libs/utils/common/removeRestCells.ts';
 
-export const calcKillFigureAction = (cells: ICell[], findCell: ICell, checkersRules: CheckersRule[]) => {
+export const calcKillFigureAction = (cells: ICell[], findCell: ICell, clearRules: CheckersRuleConfig) => {
   const findFigure = findCell.figure as IFigure;
   const killOrderArr: IKillOrderSchema[] = [];
-  const visitedCells = new Set<number>();
+  const visitedCells: number[] = [];
   
   const prepareAction = (cell: ICell, killFigure: IFigure, orderArr: IKillSchema[], potentialStain: boolean) => {
     const action: IKillSchema = {
       figure: killFigure, cell
     };
     const newArr = [...orderArr, action];
-    const killOrder: IKillOrderSchema = {
-      killOrder: newArr,
-      makeStain: potentialStain
-    };
-    killOrderArr.push(killOrder);
     getOrderKill(cell, newArr, potentialStain);
   };
   
   const getOrderKill = (currentCell: ICell, orderArr: IKillSchema[], isStain: boolean): void => {
-    if (visitedCells.has(currentCell.id)) return;
-    visitedCells.add(currentCell.id);
-    
+    if (visitedCells.includes(currentCell.id)) return;
+    visitedCells.push(currentCell.id);
     const diagonalCells = filterCellByDiagonal(cells, currentCell);
     const sortedCells = sortCellsByFar(diagonalCells, currentCell);
-    const cellsByDirections = splitCellByDirections(sortedCells, currentCell, checkersRules);
+    const cellsByDirections = splitCellByDirections(sortedCells, currentCell, clearRules);
     const interestedCells = removeRestCells(cellsByDirections);
     
     interestedCells.forEach(direction => {
-      const previousCellId = [...visitedCells][[...visitedCells].length - 2];
+      const previousCellId = visitedCells[visitedCells.length - 2];
       
-      if (direction.some(cell => cell.id === previousCellId) || previousCellId === currentCell.id) {
+      if (direction.some(cell => cell.id === previousCellId) || (
+        previousCellId === currentCell.id && isStain)) {
         return;
       }
       
@@ -50,17 +45,54 @@ export const calcKillFigureAction = (cells: ICell[], findCell: ICell, checkersRu
         }
         if (killFigure && !cell.figure) {
           if (!isStain) {
-            if (index === 1 && !visitedCells.has(cell.id) || [...visitedCells][0] === cell.id) {
+            if (index === 1) {
               const potentialStain = cell.y === 8 && findFigure.color === 'white' || cell.y === 1 &&
                 findFigure.color === 'black';
-              prepareAction(cell, killFigure, orderArr, potentialStain);
+              
+              if (potentialStain) {
+                visitedCells.pop();
+                
+                const action: IKillSchema = {
+                  figure: killFigure, cell
+                };
+                
+                const newArr = [...orderArr, action];
+                
+                if (killOrderArr.some(({ killOrder }) => killOrder.some(({ cell }) => cell.id === currentCell.id))) {
+                  return;
+                }
+                
+                const newKillOrder: IKillOrderSchema = {
+                  killOrder: newArr,
+                  makeStain: isStain
+                };
+                
+                killOrderArr.push(newKillOrder);
+                return getOrderKill(cell, [], true);
+              }
+              
+              return prepareAction(cell, killFigure, orderArr, false);
             }
           } else {
-            prepareAction(cell, killFigure, orderArr, true);
+            return prepareAction(cell, killFigure, orderArr, true);
           }
         }
       });
     });
+    
+    if (orderArr.length) {
+      visitedCells.pop();
+      
+      if (killOrderArr.some(({ killOrder }) => killOrder.some(({ cell }) => cell.id === currentCell.id))) {
+        return;
+      }
+      
+      const newKillOrder: IKillOrderSchema = {
+        killOrder: orderArr,
+        makeStain: isStain
+      };
+      killOrderArr.push(newKillOrder);
+    }
   };
   
   getOrderKill(findCell, [], findFigure.isStain);

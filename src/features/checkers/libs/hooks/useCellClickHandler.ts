@@ -1,11 +1,11 @@
+import type { IKillSchema } from 'entities/Cell';
 import { useFigure } from 'app/providers/FigureProvider';
 import { useCallback } from 'react';
-import { IKillSchema } from '../../../../entities/Cell';
 
 export const useCellClickHandler = () => {
   const { activeFigure, setCells, setActiveFigure, setIsWhiteStep } = useFigure();
   
-  const moveFigure = useCallback((cellId: number, makeStain?: boolean) => {
+  const moveFigure = useCallback((cellId: number, makeStain?: boolean): void => {
     if (activeFigure) {
       setCells(prev => prev.map(cell => {
         if (cell.figure && cell.figure.id === activeFigure.figure.id) {
@@ -28,7 +28,7 @@ export const useCellClickHandler = () => {
     }
   }, [activeFigure, setActiveFigure, setCells, setIsWhiteStep])
   
-  const killFigure = useCallback((killOrder: IKillSchema[]) => {
+  const killFigure = useCallback((killOrder: IKillSchema[]): void => {
     setCells(prev => prev.map(cell => {
       if (killOrder.find(schema => schema.figure.id === cell.figure?.id)) {
         return { ...cell, figure: null };
@@ -37,21 +37,6 @@ export const useCellClickHandler = () => {
       return cell;
     }));
   }, [setCells])
-  
-  const isActiveCell = useCallback((cellId: number): boolean => {
-    if (!activeFigure) return false;
-
-    return activeFigure.actions.some(action => {
-      switch (action.type) {
-      case 'move':
-        return action.cells.some(cell => cell.id === cellId);
-      case 'kill':
-        return action.actions.some(({ killOrder }) => killOrder.some(kill => kill.cell.id === cellId));
-      default:
-        return false;
-      }
-    });
-  }, [activeFigure])
   
   const onCellClick = useCallback((id: number): void => {
     activeFigure?.actions.find(action => {
@@ -63,20 +48,33 @@ export const useCellClickHandler = () => {
         break;
       }
       case 'kill': {
-        const activeCell = action.actions.some(({ killOrder }) => killOrder.some(order => order.cell.id === id));
+        const chosenOrder = action.actions.find(({ killOrder }) => killOrder.some(({ cell }) => cell.id === id));
+        if (chosenOrder) {
+          const chosenCellIndex = chosenOrder.killOrder.findIndex(({cell}) => cell.id === id)
+          const slicedOrder = chosenOrder.killOrder.slice(0, chosenCellIndex + 1);
           
-        if (activeCell) {
-          const currentOrder = action.actions.find(({ killOrder }) => killOrder.some(order => order.cell.id === id));
-            
-          if (currentOrder) {
-            killFigure(currentOrder.killOrder);
-            moveFigure(id, currentOrder.makeStain);
-          }
+          killFigure(slicedOrder);
+          moveFigure(id, chosenOrder.makeStain);
         }
       }
       }
     });
   }, [activeFigure?.actions, killFigure, moveFigure])
+  
+  const isActiveCell = useCallback((cellId: number): boolean => {
+    if (!activeFigure) return false;
+    
+    return activeFigure.actions.some(action => {
+      switch (action.type) {
+      case 'move':
+        return action.cells.some(cell => cell.id === cellId);
+      case 'kill':
+        return action.actions.some(({ killOrder }) => killOrder.some(kill => kill.cell.id === cellId));
+      default:
+        return false;
+      }
+    });
+  }, [activeFigure])
   
   return { onCellClick, isActiveCell };
 };

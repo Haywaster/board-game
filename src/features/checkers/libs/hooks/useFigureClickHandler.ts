@@ -5,7 +5,7 @@ import { useRules } from 'app/providers/RulesProvider';
 import { getFigureActions } from '../utils/getFigureActions.ts';
 
 export const useFigureClickHandler = (requireKillFigures: number[]) => {
-  const { checkersRules } = useRules()
+  const { clearRules } = useRules()
   const { cells, setActiveFigure, isWhiteStep, activeFigure } = useFigure();
   
   const onFigureClick = useCallback((figure: IFigure) => {
@@ -18,7 +18,7 @@ export const useFigureClickHandler = (requireKillFigures: number[]) => {
     
     setActiveFigure(activeFigure => {
       if ((whiteLaw || blackLaw) && (!activeFigure || activeFigure.figure.id !== figure.id)) {
-        const actionsActiveFigure = getFigureActions(cells, figure.id, checkersRules);
+        const actionsActiveFigure = getFigureActions(cells, figure.id, clearRules);
         return { figure, actions: actionsActiveFigure };
       }
       
@@ -29,7 +29,7 @@ export const useFigureClickHandler = (requireKillFigures: number[]) => {
       return activeFigure;
     });
     
-  }, [cells, checkersRules, isWhiteStep, requireKillFigures, setActiveFigure]);
+  }, [cells, clearRules, isWhiteStep, requireKillFigures, setActiveFigure]);
   
   const isActiveFigure = (id: number | undefined) => activeFigure?.figure.id === id;
   

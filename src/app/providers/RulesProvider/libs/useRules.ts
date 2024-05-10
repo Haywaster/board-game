@@ -1,7 +1,11 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { RulesContext, RulesContextProps } from './RulesContext.ts';
+import { CheckersRuleId } from '../../../../features/checkers/models/rules.ts';
+
+export type CheckersRuleConfig = Record<CheckersRuleId, boolean>
 
 export const useRules = () => {
   const {checkersRules, setCheckersRules} = useContext(RulesContext) as RulesContextProps;
-  return { checkersRules, setCheckersRules };
+  const clearRules = useMemo(() => checkersRules.map(rule => ({ [rule.id]: rule.checked })).reduce((prev, curr) => ({ ...prev, ...curr }), {}) as CheckersRuleConfig, [checkersRules]);
+  return { checkersRules, setCheckersRules, clearRules };
 };
