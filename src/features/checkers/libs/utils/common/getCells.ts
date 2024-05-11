@@ -16,10 +16,10 @@ export const getCells = (): ICell[] => {
           x: column,
           y: row,
           color: row <= 3 ? 'white' : 'black',
-          isStain: false,
+          isStain: false
         };
 				
-        return {...figure, id: figureIdCounter++};
+        return { ...figure, id: figureIdCounter++ };
       };
 			
       const cell: ICell = {
@@ -34,5 +34,5 @@ export const getCells = (): ICell[] => {
     }
   }
 	
-  return cells.map((cell, index) => ({...cell, id: index}));
+  return cells.map((cell, index) => ({ ...cell, id: index }));
 };

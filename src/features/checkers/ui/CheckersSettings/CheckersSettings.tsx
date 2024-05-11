@@ -9,11 +9,11 @@ interface IProps {
 	closeHandler: () => void
 }
 
-const CheckersSettings: FC<IProps> = ({openModal, closeHandler}) => {
-  const {checkersRules, setCheckersRules} = useRules();
+const CheckersSettings: FC<IProps> = ({ openModal, closeHandler }) => {
+  const { checkersRules, setCheckersRules } = useRules();
 	
   const onChangeHandler = useCallback(({ id, checked }: { id: string; checked: boolean }): void => {
-    setCheckersRules((prev) => prev.map((item) => item.id === id ? {...item, checked} : item));
+    setCheckersRules((prev) => prev.map((item) => item.id === id ? { ...item, checked } : item));
   }, [setCheckersRules]);
 	
   return (

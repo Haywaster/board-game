@@ -12,7 +12,7 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement>{
 	theme?: ThemeButton
 }
 
-const Button: FC<IProps> = memo(({className, children, theme, ...btnProps}) => {
+const Button: FC<IProps> = memo(({ className, children, theme, ...btnProps }) => {
   return (
     <button
       className={classNames(module.Button, {}, [className, module[theme || '']])}

@@ -7,7 +7,7 @@ interface IProps {
 	className?: string
 }
 
-export const Navbar: FC<IProps> = memo(({className}) => {
+export const Navbar: FC<IProps> = memo(({ className }) => {
   return (
     <nav className={classNames(module.Navbar, {}, [className])}>
       <h1>Welcome to checkers!</h1>

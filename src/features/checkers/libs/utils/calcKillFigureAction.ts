@@ -79,8 +79,8 @@ export const calcKillFigureAction = (cells: ICell[], findCell: ICell, clearRules
     let actions = killOrderArr;
     
     if (clearRules.require_kill || clearRules.kill_max_figure) {
-      const maxLength = Math.max(...killOrderArr.map(({killOrder}) => killOrder.length));
-      actions = killOrderArr.filter(({killOrder}) => killOrder.length === maxLength);
+      const maxLength = Math.max(...killOrderArr.map(({ killOrder }) => killOrder.length));
+      actions = killOrderArr.filter(({ killOrder }) => killOrder.length === maxLength);
     }
 
     return {

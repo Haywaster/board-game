@@ -14,10 +14,15 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
 	  "@typescript-eslint/no-unused-vars": "warn",
-	  indent: [2, 2],
+	  indent: [1, 2],
+	  quotes: [1, "single"],
 	  semi: [1, "always"],
+	  "comma-dangle": [1, "never"],
+	  "space-before-function-paren": [1, "never"],
+	  "object-curly-spacing": [1, "always"],
 	  "consistent-return": 2,
-	  "no-else-return"   : 1,
+	  "no-else-return": 1,
+	  "space-unary-ops": 2,
 	  "@typescript-eslint/consistent-type-exports": "error",
 	  'react-refresh/only-export-components': [
       'warn',

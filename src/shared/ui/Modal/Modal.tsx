@@ -11,7 +11,7 @@ interface IProps {
 
 const animationDelay = 300;
 
-const Modal: FC<IProps> = ({children, onClose, isOpen}) => {
+const Modal: FC<IProps> = ({ children, onClose, isOpen }) => {
   const [isClosing, setIsClosing] = useState<boolean>(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
 	

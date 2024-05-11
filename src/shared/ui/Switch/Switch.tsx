@@ -15,7 +15,7 @@ const Switch: FC<IProps> = memo(({
   id,
   initialChecked = false,
   onChange,
-  label,
+  label
 }) => {
   const [checked, setChecked] = useState(initialChecked);
 	
@@ -28,7 +28,7 @@ const Switch: FC<IProps> = memo(({
   };
 	
   return (
-    <label className={classNames(module.Switch, {checked}, [])}>
+    <label className={classNames(module.Switch, { checked }, [])}>
       <input
         type="checkbox"
         checked={checked}

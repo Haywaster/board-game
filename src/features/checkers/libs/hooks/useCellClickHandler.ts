@@ -52,7 +52,7 @@ export const useCellClickHandler = () => {
     if (killAction) {
       const chosenOrder = killAction.actions.find(({ killOrder }) => killOrder.some(({ cell }) => cell.id === id));
       if (chosenOrder) {
-        const chosenCellIndex = chosenOrder.killOrder.findIndex(({cell}) => cell.id === id);
+        const chosenCellIndex = chosenOrder.killOrder.findIndex(({ cell }) => cell.id === id);
         const slicedOrder = chosenOrder.killOrder.slice(0, chosenCellIndex + 1);
         
         if (!clearRules.kill_max_figure || clearRules.kill_max_figure && chosenCellIndex === chosenOrder.killOrder.length - 1) {

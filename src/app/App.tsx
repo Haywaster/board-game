@@ -5,7 +5,7 @@ import { Navbar } from 'widgets/Navbar';
 import { Board } from 'widgets/Board';
 
 const App = () => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 	
   return (
     <div className={ classNames('app', {}, [theme]) }>

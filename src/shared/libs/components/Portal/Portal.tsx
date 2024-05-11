@@ -6,7 +6,7 @@ interface IProps {
 	target?: HTMLElement
 }
 
-const Portal: FC<IProps> = ({children, target = document.body}) => {
+const Portal: FC<IProps> = ({ children, target = document.body }) => {
   return createPortal(children, target);
 };
 
