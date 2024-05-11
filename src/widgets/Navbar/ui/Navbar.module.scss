@@ -6,7 +6,23 @@
   align-items: center;
 }
 
+:global(.dark) {
+  .btnWrapper {
+    svg {
+      path {
+        fill: var(--cell-white);
+      }
+    }
+  }
+}
+
 .btnWrapper {
   display: flex;
   gap: 8px;
+  height: 40px;
+
+  svg {
+    width: 30px;
+    height: 30px;
+  }
 }

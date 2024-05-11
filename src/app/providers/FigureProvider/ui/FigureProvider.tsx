@@ -1,7 +1,7 @@
 import type { IActiveFigure, ICell } from 'entities/Cell';
-import { FC, PropsWithChildren, useMemo, useState } from 'react';
+import { FC, PropsWithChildren, useCallback, useMemo, useState } from 'react';
 import { FigureContext } from '../libs/FigureContext.ts';
-import { getCells } from 'features/checkers/libs/utils/common/getCells.ts';
+import { getCells } from 'features/checkers';
 
 export const FigureProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isWhiteStep, setIsWhiteStep] = useState<boolean>(true);
@@ -23,12 +23,19 @@ export const FigureProvider: FC<PropsWithChildren> = ({ children }) => {
       isWhiteStep, setIsWhiteStep
     }), [isWhiteStep]);
 
+  const resetState = useCallback((): void => {
+    setCells(getCells());
+    setActiveFigure(null);
+    setIsWhiteStep(true);
+  }, []);
+
   return (
     <FigureContext.Provider value={
       {
         ...defaultActiveFigureValue,
         ...defaultCellsValue,
-        ...defaultStepColor
+        ...defaultStepColor,
+        resetState
       }
     }>
       { children }

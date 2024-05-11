@@ -11,7 +11,7 @@ module.exports = {
 	parserOptions: {
 		project: true
 	},
-  plugins: ['react-refresh'],
+  plugins: ['react-refresh', "unused-imports"],
   rules: {
 	  "@typescript-eslint/no-unused-vars": "warn",
 	  indent: [1, 2],
@@ -42,5 +42,15 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+	  "unused-imports/no-unused-imports": "error",
+	  "unused-imports/no-unused-vars": [
+		  "warn",
+		  {
+			  "vars": "all",
+			  "varsIgnorePattern": "^_",
+			  "args": "after-used",
+			  "argsIgnorePattern": "^_",
+		  },
+	  ],
   },
 }

@@ -9,8 +9,9 @@ export const useFigure = () => {
       cells,
       setCells,
       isWhiteStep,
-      setIsWhiteStep
+      setIsWhiteStep,
+      resetState
     } = useContext(FigureContext) as FigureContextProps;
 
-  return { activeFigure, setActiveFigure, cells, setCells, isWhiteStep, setIsWhiteStep };
+  return { activeFigure, setActiveFigure, cells, setCells, isWhiteStep, setIsWhiteStep, resetState };
 };

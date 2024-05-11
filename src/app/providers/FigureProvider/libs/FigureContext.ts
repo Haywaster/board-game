@@ -8,6 +8,7 @@ export interface FigureContextProps {
 	setCells: Dispatch<SetStateAction<ICell[]>>
 	isWhiteStep: boolean
 	setIsWhiteStep: Dispatch<SetStateAction<boolean>>
+  resetState: () => void
 }
 
 export const FigureContext = createContext<FigureContextProps | null>(null);
