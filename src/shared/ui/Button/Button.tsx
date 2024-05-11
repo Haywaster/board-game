@@ -5,7 +5,8 @@ import module from './Button.module.scss';
 
 // eslint-disable-next-line
 export enum ThemeButton {
-	CLEAR = 'clear'
+	CLEAR = 'clear',
+  PRIMARY = 'primary'
 }
 
 interface IProps extends ButtonHTMLAttributes<HTMLButtonElement>{
@@ -13,15 +14,13 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement>{
 	theme?: ThemeButton
 }
 
-const Button: FC<IProps> = memo(({ className, children, theme, ...btnProps }) => {
-  return (
-    <button
-      className={classNames(module.Button, {}, [className, module[theme || '']])}
-      {...btnProps}
-    >
-      {children}
-    </button>
-  );
-});
+const Button: FC<IProps> = memo(({ className, children, theme, ...btnProps }) => (
+  <button
+    className={classNames(module.Button, {}, [className, module[theme || '']])}
+    {...btnProps}
+  >
+    {children}
+  </button>
+));
 
 export default Button;

@@ -1,12 +1,12 @@
 import type { IFigure } from 'entities/Cell';
-import type { FC, ReactNode } from 'react';
+import type { FC, ReactElement } from 'react';
 import module from 'widgets/Board/ui/Board.module.scss';
 import { useCheckers } from 'app/providers/CheckersProvider';
-import { classNames } from 'shared/libs/classNames.ts';
-import Crown from 'shared/assets/crown.svg?react';
+import { CounterFigures } from './CounterFigures.tsx';
+import Congratulation from '../Congratulation/Congratulation.tsx';
 
 export const CheckersCounter: FC = () => {
-  const { cells } = useCheckers();
+  const { cells, isGameOver, setIsGameOver } = useCheckers();
   const whiteFigures = cells.map((cell) => cell.figure).filter((figure): figure is IFigure => figure?.color === 'white');
   const blackFigures = cells.map(cell => cell.figure).filter((figure): figure is IFigure => figure?.color === 'black');
 
@@ -21,26 +21,14 @@ export const CheckersCounter: FC = () => {
     }
   };
 
-  const showCountFigures = (figures: Record<'common' | 'stain', number>, color: IFigure['color']): ReactNode => {
-    const { common, stain } = figures;
-    const hasStain = stain > 0 && stain;
-    const stainText = hasStain && <span className={module.Stain}>&nbsp;/ { hasStain } <Crown/></span>;
-
-    return (
-      <p className={classNames(module.CounterItem, {}, [module[color]])}>
-        <span className={module.Common}>{common}</span>
-        {stainText}
-      </p>
-    );
-  };
-
-  const whiteCountFigures = showCountFigures(figures.white, 'white');
-  const blackCountFigures = showCountFigures(figures.black, 'black');
+  const WhiteCountFigures = (): ReactElement => <CounterFigures figures={figures.white} color="white"/>;
+  const BlackCountFigures = (): ReactElement => <CounterFigures figures={figures.black} color="black"/>;
 
   return (
     <div
       className={module.Counter}>
-      { whiteCountFigures } — { blackCountFigures }
+      <WhiteCountFigures/> — <BlackCountFigures/>
+      <Congratulation openModal={isGameOver} closeHandler={() => setIsGameOver(false)}/>
     </div>
   );
 };

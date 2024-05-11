@@ -31,6 +31,8 @@
 }
 
 .Content {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   background-color: var(--cell-white);
   border-radius: 12px;

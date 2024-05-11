@@ -24,7 +24,9 @@ const NavButtons: FC = () => {
   };
 
   const reloadGame = (): void => {
-    resetState();
+    if (isFirstMoveMage) {
+      resetState();
+    }
   };
 
   const themeText = theme === 'dark' ? <Moon/> : <Sun/>;

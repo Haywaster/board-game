@@ -3,7 +3,7 @@ $primaryColor: #fff;
 $secondaryColor: #3f3f3f;
 $dividerColor: rgba(0, 0, 0, 0.5);
 
-.app {
+body {
   &.dark {
     --bg-color: #{$bgColor};
     --primary-color: #{$primaryColor};

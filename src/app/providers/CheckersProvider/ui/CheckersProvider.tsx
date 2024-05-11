@@ -5,6 +5,7 @@ import { CheckersContext } from '../libs/CheckersContext.ts';
 import { getCells } from 'features/checkers';
 
 export const CheckersProvider: FC<PropsWithChildren> = ({ children }) => {
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [isWhiteStep, setIsWhiteStep] = useState<boolean>(true);
   const [isFirstMoveMage, setIsFirstMoveMage] = useState<boolean>(false);
   const [cells, setCells] = useState<ICell[]>(getCells());
@@ -30,11 +31,17 @@ export const CheckersProvider: FC<PropsWithChildren> = ({ children }) => {
       isFirstMoveMage, setIsFirstMoveMage
     }), [isFirstMoveMage]);
 
+  const defaultIsGameOver = useMemo(() => (
+    {
+      isGameOver, setIsGameOver
+    }), [isGameOver]);
+
   const resetState = useCallback((): void => {
     setCells(getCells());
     setActiveFigure(null);
     setIsWhiteStep(true);
     setIsFirstMoveMage(false);
+    setIsGameOver(false);
   }, []);
 
   return (
@@ -44,6 +51,7 @@ export const CheckersProvider: FC<PropsWithChildren> = ({ children }) => {
         ...defaultCellsValue,
         ...defaultStepColor,
         ...defaultFirstMoveMage,
+        ...defaultIsGameOver,
         resetState
       }
     }>

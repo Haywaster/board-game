@@ -12,8 +12,12 @@
     cursor: default;
     background-color: var(--disabled-color);
   }
-}
 
-.clear {
-  background: none;
+  &.clear {
+    background: none;
+  }
+
+  &.primary {
+    background-color: var(--navbar-bg-color);
+  }
 }

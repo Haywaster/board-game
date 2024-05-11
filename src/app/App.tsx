@@ -1,14 +1,22 @@
-import { classNames } from 'shared/libs/classNames.ts';
 import { useTheme } from './providers/ThemeProvider';
 import { Navbar } from 'widgets/Navbar';
 import { Board } from 'widgets/Board';
 import type { FC } from 'react';
+import { useEffect } from 'react';
 
 const App: FC = () => {
   const { theme } = useTheme();
 
+  useEffect(() => {
+    document.body.classList.forEach(item => {
+      document.body.classList.remove(item);
+    });
+
+    document.body.classList.add(theme);
+  }, [theme]);
+
   return (
-    <div className={ classNames('app', {}, [theme]) }>
+    <div className='app'>
       <Navbar/>
       <Board/>
     </div>

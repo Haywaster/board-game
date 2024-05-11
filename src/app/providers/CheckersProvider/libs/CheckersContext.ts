@@ -12,6 +12,8 @@ export interface CheckersContextProps {
   isFirstMoveMage: boolean
   setIsFirstMoveMage: Dispatch<SetStateAction<boolean>>
   resetState: () => void
+  isGameOver: boolean
+  setIsGameOver: Dispatch<SetStateAction<boolean>>
 }
 
 export const CheckersContext = createContext<CheckersContextProps | null>(null);

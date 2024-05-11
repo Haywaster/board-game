@@ -13,7 +13,9 @@ export const useCheckers = (): CheckersContextProps => {
       setIsWhiteStep,
       resetState,
       isFirstMoveMage,
-      setIsFirstMoveMage
+      setIsFirstMoveMage,
+      isGameOver,
+      setIsGameOver
     } = useContext(CheckersContext) as CheckersContextProps;
 
   return {
@@ -25,6 +27,8 @@ export const useCheckers = (): CheckersContextProps => {
     setIsWhiteStep,
     resetState,
     isFirstMoveMage,
-    setIsFirstMoveMage
+    setIsFirstMoveMage,
+    isGameOver,
+    setIsGameOver
   };
 };
