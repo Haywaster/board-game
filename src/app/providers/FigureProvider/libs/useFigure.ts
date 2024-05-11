@@ -11,6 +11,6 @@ export const useFigure = () => {
       isWhiteStep,
       setIsWhiteStep
     } = useContext(FigureContext) as FigureContextProps;
-	
+
   return { activeFigure, setActiveFigure, cells, setCells, isWhiteStep, setIsWhiteStep };
 };

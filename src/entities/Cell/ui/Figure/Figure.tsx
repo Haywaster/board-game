@@ -15,7 +15,7 @@ export const Figure: FC<IProps> = memo(({ isActiveFigure, isRequireFigure, onFig
     [module.require]: isRequireFigure,
     [module.active]: isActiveFigure
   };
-  
+
   return (
     <div
       onClick={ () => onFigureClick(figure) }

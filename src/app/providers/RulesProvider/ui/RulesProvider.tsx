@@ -5,11 +5,11 @@ import { checkersRules as initialCheckersRules } from 'features/checkers';
 
 export const RulesProvider: FC<PropsWithChildren> = ({ children }) => {
   const [checkersRules, setCheckersRules] = useState<CheckersRule[]>(initialCheckersRules);
-	
+
   const defaultCheckersRulesValue = useMemo(() => ({
     checkersRules, setCheckersRules
   }), [checkersRules]);
-	
+
   return (
     <RulesContext.Provider value={defaultCheckersRulesValue}>
       { children }

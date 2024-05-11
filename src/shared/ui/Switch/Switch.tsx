@@ -18,15 +18,15 @@ const Switch: FC<IProps> = memo(({
   label
 }) => {
   const [checked, setChecked] = useState(initialChecked);
-	
+
   const toggleSwitch = () => {
     setChecked((prev) => !prev);
-		
+
     if (onChange) {
       onChange({ id, checked: !checked });
     }
   };
-	
+
   return (
     <label className={classNames(module.Switch, { checked }, [])}>
       <input

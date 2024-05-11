@@ -11,14 +11,14 @@ const commonFigureLogic = (cells: ICell[], findFigure: IFigure): IFigureMoveActi
       whiteCondition || blackCondition) && Math.abs(cell.x - findFigure.x) === 1 &&
 			Math.abs(cell.y - findFigure.y) === 1;
   });
-	
+
   if (emptyNearNeighboursCell.length) {
     return {
       type: 'move',
       cells: emptyNearNeighboursCell
     };
   }
-  
+
   return null;
 };
 
@@ -27,7 +27,7 @@ const stainFigureLogic = (cells: ICell[], findFigure: IFigure): IFigureMoveActio
   const sortedCells = sortCellsByFar(diagonalCells, findFigure);
   const cellsByDirections = splitCellByDirections(sortedCells, findFigure);
   const emptyAllNeighboursCell: ICell[] = [];
-	
+
   cellsByDirections.forEach(direction => {
     for (const cell of direction) {
       if (!cell.figure) {
@@ -37,20 +37,20 @@ const stainFigureLogic = (cells: ICell[], findFigure: IFigure): IFigureMoveActio
       }
     }
   });
-	
+
   if (emptyAllNeighboursCell.length) {
     return {
       type: 'move',
       cells: emptyAllNeighboursCell
     };
   }
-  
+
   return null;
 };
 
 export const calcMoveFigureAction = (cells: ICell[], findFigure: IFigure): IFigureMoveAction | null => {
   if (!findFigure.isStain) {
     return commonFigureLogic(cells, findFigure);
-  } 
+  }
   return stainFigureLogic(cells, findFigure);
 };

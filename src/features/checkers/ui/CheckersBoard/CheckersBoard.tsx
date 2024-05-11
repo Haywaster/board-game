@@ -14,21 +14,21 @@ export const CheckersBoard: FC = memo(() => {
   const [requireKillFigures, setRequireKillFigures] = useState<number[]>([]);
   const { isActiveFigure, onFigureClick } = useFigureClickHandler(requireKillFigures);
   const { isActiveCell, isSkipCell, onCellClick } = useCellClickHandler();
-  
+
   const setKillerFigures = useCallback((): void => {
     setRequireKillFigures([]);
     cells.forEach(cell => {
       if (cell.figure && cell.figure.color === (
         isWhiteStep ? 'white' : 'black')) {
         const figureActions = getFigureActions(cells, cell.figure.id, clearRules);
-        
+
         if (figureActions.some((action) => action.type === 'kill')) {
           setRequireKillFigures(prev => [...prev, cell.figure!.id]);
         }
       }
     });
   }, [cells, clearRules, isWhiteStep]);
-  
+
   useEffect(() => {
     if (!clearRules.require_kill) {
       setRequireKillFigures([]);
@@ -36,13 +36,13 @@ export const CheckersBoard: FC = memo(() => {
       setKillerFigures();
     }
   }, [clearRules.require_kill, setKillerFigures]);
-  
+
   const mods = {
     [module.withoutPrompts]: !clearRules.prompts
   };
-  
+
   const isRequireFigure = (id: number | undefined): boolean => id ? requireKillFigures.includes(id) : false;
-  
+
   return (
     <ul className={ classNames(module.Board, mods, []) }>
       { cells.map(cell => (

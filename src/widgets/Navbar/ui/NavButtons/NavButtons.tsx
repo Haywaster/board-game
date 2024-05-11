@@ -7,15 +7,15 @@ import CheckersSettings from 'features/checkers/ui/CheckersSettings/CheckersSett
 const NavButtons: FC = () => {
   const { theme, toggleTheme } = useTheme();
   const [openModal, setOpenModal] = useState(false);
-	
+
   const closeHandler = () => {
     setOpenModal(false);
   };
-	
+
   const openHandler = () => {
     setOpenModal(true);
   };
-	
+
   return (
     <div className={ module.btnWrapper }>
       <Button onClick={ toggleTheme }>{ theme }</Button>

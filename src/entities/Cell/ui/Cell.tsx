@@ -28,7 +28,7 @@ export const Cell: FC<IProps> = memo(({
     active: isActiveCell,
     skip: isSkipCell
   };
-  
+
   return (
     <li
       onClick={ () => onCellClick(id) }

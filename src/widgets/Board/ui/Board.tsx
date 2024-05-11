@@ -7,9 +7,9 @@ import { useFigure } from 'app/providers/FigureProvider';
 
 export const Board: FC = () => {
   const { isWhiteStep } = useFigure();
-  
+
   const color = isWhiteStep ? 'White' : 'Black';
-  
+
   return (
     <main>
       <div className={ module.GameWrapper }>
