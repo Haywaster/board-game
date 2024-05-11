@@ -17,6 +17,7 @@ module.exports = {
 	  indent: [2, 2],
 	  semi: [1, "always"],
 	  "consistent-return": 2,
+	  "no-else-return"   : 1,
 	  "@typescript-eslint/consistent-type-exports": "error",
 	  'react-refresh/only-export-components': [
       'warn',

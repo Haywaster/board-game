@@ -29,9 +29,8 @@ export const splitCellByDirections = (cells: ICell[],
   if (!clearRules?.back_kill && 'figure' in main && !main.figure?.isStain) {
     if (main.figure?.color === 'white') {
       return [NEDirection, NWDirection].filter(item => item.length);
-    } else {
-      return [SWDirection, SEDirection].filter(item => item.length);
-    }
+    } 
+    return [SWDirection, SEDirection].filter(item => item.length);
   }
   
   return [NEDirection, NWDirection, SWDirection, SEDirection].filter(item => item.length);

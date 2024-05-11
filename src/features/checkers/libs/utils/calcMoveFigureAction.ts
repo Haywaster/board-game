@@ -51,7 +51,6 @@ const stainFigureLogic = (cells: ICell[], findFigure: IFigure): IFigureMoveActio
 export const calcMoveFigureAction = (cells: ICell[], findFigure: IFigure): IFigureMoveAction | null => {
   if (!findFigure.isStain) {
     return commonFigureLogic(cells, findFigure);
-  } else {
-    return stainFigureLogic(cells, findFigure);
-  }
+  } 
+  return stainFigureLogic(cells, findFigure);
 };
