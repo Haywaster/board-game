@@ -14,7 +14,7 @@ export const Figure: FC<IProps> = memo(({ isActiveFigure, isRequireFigure, onFig
   const mods = {
     [module.require]: isRequireFigure,
     [module.active]: isActiveFigure
-  }
+  };
   
   return (
     <div

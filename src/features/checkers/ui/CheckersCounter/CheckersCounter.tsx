@@ -1,11 +1,11 @@
 import type { IFigure } from 'entities/Cell';
-import { ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import module from 'widgets/Board/ui/Board.module.scss';
 import { useFigure } from 'app/providers/FigureProvider';
 import { classNames } from 'shared/libs/classNames.ts';
 import Crown from 'shared/assets/crown.svg?react';
 
-export const CheckersCounter = () => {
+export const CheckersCounter: FC = () => {
   const { cells } = useFigure();
   const whiteFigures = cells.map((cell) => cell.figure).filter((figure): figure is IFigure => figure?.color === 'white');
   const blackFigures = cells.map(cell => cell.figure).filter((figure): figure is IFigure => figure?.color === 'black');
@@ -24,7 +24,7 @@ export const CheckersCounter = () => {
   const showCountFigures = (figures: Record<'common' | 'stain', number>, color: IFigure['color']): ReactNode => {
     const { common, stain } = figures;
     const hasStain = stain > 0 && stain;
-    const stainText = hasStain && <span className={module.Stain}>&nbsp;/ { hasStain } <Crown/></span>
+    const stainText = hasStain && <span className={module.Stain}>&nbsp;/ { hasStain } <Crown/></span>;
     
     return (
       <p className={classNames(module.CounterItem, {}, [module[color]])}>
@@ -32,7 +32,7 @@ export const CheckersCounter = () => {
         {stainText}
       </p>
     );
-  }
+  };
   
   const whiteCountFigures = showCountFigures(figures.white, 'white');
   const blackCountFigures = showCountFigures(figures.black, 'black');
@@ -42,5 +42,5 @@ export const CheckersCounter = () => {
       className={module.Counter}>
       { whiteCountFigures } — { blackCountFigures }
     </div>
-  )
-}
+  );
+};

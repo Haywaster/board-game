@@ -1,5 +1,5 @@
 import { FC, ReactNode, MouseEvent, useState, useRef, useEffect, useCallback } from 'react';
-import module from './Modal.module.scss'
+import module from './Modal.module.scss';
 import Portal from '../../libs/components/Portal/Portal.tsx';
 import { classNames } from '../../libs/classNames.ts';
 
@@ -9,46 +9,46 @@ interface IProps {
 	children: ReactNode
 }
 
-const animationDelay = 300
+const animationDelay = 300;
 
 const Modal: FC<IProps> = ({children, onClose, isOpen}) => {
   const [isClosing, setIsClosing] = useState<boolean>(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>()
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
 	
   const onKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') {
-      onClose()
+      onClose();
     }
-  }, [onClose])
+  }, [onClose]);
 	
   useEffect(() => {
     if (isOpen) {
-      window.addEventListener('keydown', onKeyDown)
+      window.addEventListener('keydown', onKeyDown);
     }
 		
     return () => {
-      window.removeEventListener('keydown', onKeyDown)
-      clearTimeout(timerRef.current)
-    }
-  }, [isOpen, onKeyDown])
+      window.removeEventListener('keydown', onKeyDown);
+      clearTimeout(timerRef.current);
+    };
+  }, [isOpen, onKeyDown]);
   const onContentClick = (e: MouseEvent) => {
-    e.stopPropagation()
-  }
+    e.stopPropagation();
+  };
 	
   const mods = {
     [module.open]: isOpen,
     [module.closing]: isClosing
-  }
+  };
 	
   const onCloseHandler = useCallback(() => {
     if (onClose) {
-      setIsClosing(true)
+      setIsClosing(true);
       timerRef.current = setTimeout(() => {
-        onClose()
-        setIsClosing(false)
-      }, animationDelay)
+        onClose();
+        setIsClosing(false);
+      }, animationDelay);
     }
-  }, [onClose])
+  }, [onClose]);
 	
   return (
     <Portal>

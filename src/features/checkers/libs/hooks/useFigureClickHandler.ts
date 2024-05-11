@@ -5,7 +5,7 @@ import { useRules } from 'app/providers/RulesProvider';
 import { getFigureActions } from '../utils/getFigureActions.ts';
 
 export const useFigureClickHandler = (requireKillFigures: number[]) => {
-  const { clearRules } = useRules()
+  const { clearRules } = useRules();
   const { cells, setActiveFigure, isWhiteStep, activeFigure } = useFigure();
   
   const onFigureClick = useCallback((figure: IFigure) => {

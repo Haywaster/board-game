@@ -22,5 +22,5 @@ export const removeRestCells = (cellsByDirections: ICell[][]): ICell[][] => {
     interestedCells.push(cellsInDirection);
   });
 	
-  return interestedCells
-}
+  return interestedCells;
+};

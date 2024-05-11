@@ -5,7 +5,7 @@ import { getCells } from 'features/checkers/libs/utils/common/getCells.ts';
 
 export const FigureProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isWhiteStep, setIsWhiteStep] = useState<boolean>(true);
-  const [cells, setCells] = useState<ICell[]>(getCells())
+  const [cells, setCells] = useState<ICell[]>(getCells());
   const [activeFigure, setActiveFigure] = useState<IActiveFigure | null>(null);
 	
   const defaultActiveFigureValue = useMemo(() => (
@@ -21,7 +21,7 @@ export const FigureProvider: FC<PropsWithChildren> = ({ children }) => {
   const defaultStepColor = useMemo(() => (
     {
       isWhiteStep, setIsWhiteStep
-    }), [isWhiteStep])
+    }), [isWhiteStep]);
 
   return (
     <FigureContext.Provider value={

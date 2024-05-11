@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, FC, memo } from 'react';
 import { classNames } from 'shared/libs/classNames.ts';
-import module from './Button.module.scss'
+import module from './Button.module.scss';
 
 // eslint-disable-next-line
 export enum ThemeButton {

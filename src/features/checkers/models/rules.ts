@@ -30,4 +30,4 @@ export const checkersRules: CheckersRule[] = [
     id: CheckersRuleId.BACK_KILL,
     checked: true
   }
-]
+];

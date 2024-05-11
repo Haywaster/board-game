@@ -12,5 +12,5 @@ export const filterCellByDiagonal = (cells: ICell[], main: IFigure | ICell) => {
       }
     }
     return Math.abs(cell.x - main.x) === Math.abs(cell.y - main.y);
-  })
-}
+  });
+};

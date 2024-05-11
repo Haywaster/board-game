@@ -20,7 +20,7 @@ export const getCells = (): ICell[] => {
         };
 				
         return {...figure, id: figureIdCounter++};
-      }
+      };
 			
       const cell: ICell = {
         x: column,
@@ -35,4 +35,4 @@ export const getCells = (): ICell[] => {
   }
 	
   return cells.map((cell, index) => ({...cell, id: index}));
-}
+};

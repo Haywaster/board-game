@@ -1,5 +1,5 @@
 import { FC, memo, useState } from 'react';
-import module from './Switch.module.scss'
+import module from './Switch.module.scss';
 import { classNames } from '../../libs/classNames.ts';
 
 export interface ISwitch {
@@ -17,15 +17,15 @@ const Switch: FC<IProps> = memo(({
   onChange,
   label,
 }) => {
-  const [checked, setChecked] = useState(initialChecked)
+  const [checked, setChecked] = useState(initialChecked);
 	
   const toggleSwitch = () => {
-    setChecked((prev) => !prev)
+    setChecked((prev) => !prev);
 		
     if (onChange) {
-      onChange({ id, checked: !checked })
+      onChange({ id, checked: !checked });
     }
-  }
+  };
 	
   return (
     <label className={classNames(module.Switch, {checked}, [])}>
@@ -40,7 +40,7 @@ const Switch: FC<IProps> = memo(({
       </div>
       {label}
     </label>
-  )
-})
+  );
+});
 
-export default Switch
+export default Switch;

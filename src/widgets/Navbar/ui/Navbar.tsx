@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
 import { classNames } from 'shared/libs/classNames.ts';
-import module from './Navbar.module.scss'
+import module from './Navbar.module.scss';
 import NavButtons from './NavButtons/NavButtons.tsx';
 
 interface IProps {

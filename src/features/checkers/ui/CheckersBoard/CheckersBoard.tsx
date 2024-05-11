@@ -31,7 +31,7 @@ export const CheckersBoard: FC = memo(() => {
   
   useEffect(() => {
     if (!clearRules.require_kill) {
-      setRequireKillFigures([])
+      setRequireKillFigures([]);
     } else {
       setKillerFigures();
     }

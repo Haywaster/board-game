@@ -27,7 +27,7 @@ export const Cell: FC<IProps> = memo(({
   const mods = {
     active: isActiveCell,
     skip: isSkipCell
-  }
+  };
   
   return (
     <li

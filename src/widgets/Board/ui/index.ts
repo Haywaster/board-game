@@ -1,1 +1,1 @@
-export * from './Board.tsx'
+export * from './Board.tsx';

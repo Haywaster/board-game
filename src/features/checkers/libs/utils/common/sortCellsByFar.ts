@@ -7,4 +7,4 @@ export const sortCellsByFar = (cells: ICell[], main: IFigure | ICell): ICell[] =
     const distanceB = calcDistance(main.x, main.y, b.x, b.y);
     return distanceA - distanceB;
   });
-}
+};

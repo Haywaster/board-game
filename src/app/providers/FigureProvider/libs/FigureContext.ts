@@ -10,4 +10,4 @@ export interface FigureContextProps {
 	setIsWhiteStep: Dispatch<SetStateAction<boolean>>
 }
 
-export const FigureContext = createContext<FigureContextProps | null>(null)
+export const FigureContext = createContext<FigureContextProps | null>(null);
