@@ -5,7 +5,7 @@ import { sortCellsByFar } from './common/sortCellsByFar.ts';
 import { splitCellByDirections } from './common/splitCellByDirections.ts';
 import { removeRestCells } from './common/removeRestCells.ts';
 
-export const calcKillFigureAction = (cells: ICell[], findCell: ICell, clearRules: CheckersRuleConfig) => {
+export const calcKillFigureAction = (cells: ICell[], findCell: ICell, clearRules: CheckersRuleConfig): IFigureKillAction | null => {
   const findFigure = findCell.figure as IFigure;
   const killOrderArr: IKillOrderSchema[] = [];
   const visitedCells: number[] = [];
@@ -49,10 +49,10 @@ export const calcKillFigureAction = (cells: ICell[], findCell: ICell, clearRules
               const potentialStain = cell.y === 8 && findFigure.color === 'white' || cell.y === 1 &&
                 findFigure.color === 'black';
               
-              return prepareAction(cell, killFigure, orderArr, potentialStain);
+              prepareAction(cell, killFigure, orderArr, potentialStain);
             }
           } else {
-            return prepareAction(cell, killFigure, orderArr, true);
+            prepareAction(cell, killFigure, orderArr, true);
           }
         }
       });
@@ -82,12 +82,12 @@ export const calcKillFigureAction = (cells: ICell[], findCell: ICell, clearRules
       const maxLength = Math.max(...killOrderArr.map(({killOrder}) => killOrder.length));
       actions = killOrderArr.filter(({killOrder}) => killOrder.length === maxLength);
     }
-    
-    const action: IFigureKillAction = {
+
+    return {
       type: 'kill',
-      actions: actions
+      actions
     };
-    
-    return action;
   }
+  
+  return null;
 };

@@ -3,7 +3,7 @@ import { splitCellByDirections } from './common/splitCellByDirections.ts';
 import { sortCellsByFar } from './common/sortCellsByFar.ts';
 import { filterCellByDiagonal } from './common/filterCellByDiagonal.ts';
 
-const commonFigureLogic = (cells: ICell[], findFigure: IFigure) => {
+const commonFigureLogic = (cells: ICell[], findFigure: IFigure): IFigureMoveAction | null => {
   const emptyNearNeighboursCell = cells.filter(cell => {
     const whiteCondition = findFigure.color === 'white' && cell.y > findFigure.y;
     const blackCondition = findFigure.color === 'black' && cell.y < findFigure.y;
@@ -13,16 +13,16 @@ const commonFigureLogic = (cells: ICell[], findFigure: IFigure) => {
   });
 	
   if (emptyNearNeighboursCell.length) {
-    const action: IFigureMoveAction = {
+    return {
       type: 'move',
       cells: emptyNearNeighboursCell
     };
-		
-    return action;
   }
+  
+  return null;
 };
 
-const stainFigureLogic = (cells: ICell[], findFigure: IFigure) => {
+const stainFigureLogic = (cells: ICell[], findFigure: IFigure): IFigureMoveAction | null => {
   const diagonalCells = filterCellByDiagonal(cells, findFigure);
   const sortedCells = sortCellsByFar(diagonalCells, findFigure);
   const cellsByDirections = splitCellByDirections(sortedCells, findFigure);
@@ -39,16 +39,16 @@ const stainFigureLogic = (cells: ICell[], findFigure: IFigure) => {
   });
 	
   if (emptyAllNeighboursCell.length) {
-    const action: IFigureMoveAction = {
+    return {
       type: 'move',
       cells: emptyAllNeighboursCell
     };
-		
-    return action;
   }
+  
+  return null;
 };
 
-export const calcMoveFigureAction = (cells: ICell[], findFigure: IFigure) => {
+export const calcMoveFigureAction = (cells: ICell[], findFigure: IFigure): IFigureMoveAction | null => {
   if (!findFigure.isStain) {
     return commonFigureLogic(cells, findFigure);
   } else {
