@@ -10,17 +10,18 @@ export const calcKillFigureAction = (cells: ICell[], findCell: ICell, clearRules
   const killOrderArr: IKillOrderSchema[] = [];
   const visitedCells: number[] = [];
 
-  const prepareAction = (cell: ICell, killFigure: IFigure, orderArr: IKillSchema[], potentialStain: boolean) => {
-    const action: IKillSchema = {
-      figure: killFigure, cell
-    };
-    const newArr = [...orderArr, action];
-    getOrderKill(cell, newArr, potentialStain);
-  };
-
   const getOrderKill = (currentCell: ICell, orderArr: IKillSchema[], isStain: boolean): void => {
+    const prepareAction = (cell: ICell, killFigure: IFigure, orderArr: IKillSchema[], potentialStain: boolean) => {
+      const action: IKillSchema = {
+        figure: killFigure, cell
+      };
+      const newArr = [...orderArr, action];
+      getOrderKill(cell, newArr, potentialStain);
+    };
+
     if (visitedCells.includes(currentCell.id)) return;
     visitedCells.push(currentCell.id);
+
     const diagonalCells = filterCellByDiagonal(cells, currentCell);
     const sortedCells = sortCellsByFar(diagonalCells, currentCell);
     const cellsByDirections = splitCellByDirections(sortedCells, currentCell, clearRules);
