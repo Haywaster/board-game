@@ -1,12 +1,17 @@
 import type { IFigure } from 'entities/Cell';
 import { useCallback } from 'react';
-import { useFigure } from 'app/providers/FigureProvider';
+import { useCheckers } from 'app/providers/CheckersProvider';
 import { useRules } from 'app/providers/RulesProvider';
 import { getFigureActions } from '../utils/getFigureActions.ts';
 
-export const useFigureClickHandler = (requireKillFigures: number[]) => {
+interface IUseFigureClickHandler {
+  onFigureClick: (figure: IFigure) => void
+  isActiveFigure: (id: number | undefined) => boolean
+}
+
+export const useFigureClickHandler = (requireKillFigures: number[]): IUseFigureClickHandler => {
   const { clearRules } = useRules();
-  const { cells, setActiveFigure, isWhiteStep, activeFigure } = useFigure();
+  const { cells, setActiveFigure, isWhiteStep, activeFigure } = useCheckers();
 
   const onFigureClick = useCallback((figure: IFigure) => {
     if (requireKillFigures.length && !requireKillFigures.includes(figure.id)) {
@@ -31,7 +36,7 @@ export const useFigureClickHandler = (requireKillFigures: number[]) => {
 
   }, [cells, clearRules, isWhiteStep, requireKillFigures, setActiveFigure]);
 
-  const isActiveFigure = (id: number | undefined) => activeFigure?.figure.id === id;
+  const isActiveFigure = (id: number | undefined): boolean => activeFigure?.figure.id === id;
 
   return { onFigureClick, isActiveFigure };
 };

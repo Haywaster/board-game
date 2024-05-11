@@ -1,10 +1,12 @@
 import type { IActiveFigure, ICell } from 'entities/Cell';
-import { FC, PropsWithChildren, useCallback, useMemo, useState } from 'react';
-import { FigureContext } from '../libs/FigureContext.ts';
+import type { FC, PropsWithChildren } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { CheckersContext } from '../libs/CheckersContext.ts';
 import { getCells } from 'features/checkers';
 
-export const FigureProvider: FC<PropsWithChildren> = ({ children }) => {
+export const CheckersProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isWhiteStep, setIsWhiteStep] = useState<boolean>(true);
+  const [isFirstMoveMage, setIsFirstMoveMage] = useState<boolean>(false);
   const [cells, setCells] = useState<ICell[]>(getCells());
   const [activeFigure, setActiveFigure] = useState<IActiveFigure | null>(null);
 
@@ -23,22 +25,29 @@ export const FigureProvider: FC<PropsWithChildren> = ({ children }) => {
       isWhiteStep, setIsWhiteStep
     }), [isWhiteStep]);
 
+  const defaultFirstMoveMage = useMemo(() => (
+    {
+      isFirstMoveMage, setIsFirstMoveMage
+    }), [isFirstMoveMage]);
+
   const resetState = useCallback((): void => {
     setCells(getCells());
     setActiveFigure(null);
     setIsWhiteStep(true);
+    setIsFirstMoveMage(false);
   }, []);
 
   return (
-    <FigureContext.Provider value={
+    <CheckersContext.Provider value={
       {
         ...defaultActiveFigureValue,
         ...defaultCellsValue,
         ...defaultStepColor,
+        ...defaultFirstMoveMage,
         resetState
       }
     }>
       { children }
-    </FigureContext.Provider>
+    </CheckersContext.Provider>
   );
 };

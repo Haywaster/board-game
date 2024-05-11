@@ -9,6 +9,8 @@ export enum CheckersRuleId {
   KILL_MAX_FIGURES = 'kill_max_figure'
 }
 
+export type CheckersRuleConfig = Record<CheckersRuleId, boolean>
+
 export const checkersRules: CheckersRule[] = [
   {
     label: 'Require kill',

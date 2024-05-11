@@ -1,11 +1,17 @@
 import type { IFigureKillAction, IFigureMoveAction, IKillSchema } from 'entities/Cell';
 import { useCallback } from 'react';
-import { useFigure } from 'app/providers/FigureProvider';
+import { useCheckers } from 'app/providers/CheckersProvider';
 import { useRules } from 'app/providers/RulesProvider';
 
-export const useCellClickHandler = () => {
+interface IUseCellClickHandler {
+  onCellClick: (cellId: number) => void
+  isActiveCell: (cellId: number) => boolean
+  isSkipCell: (cellId: number) => boolean
+}
+
+export const useCellClickHandler = (): IUseCellClickHandler => {
   const { clearRules } = useRules();
-  const { activeFigure, setCells, setActiveFigure, setIsWhiteStep } = useFigure();
+  const { activeFigure, setCells, setActiveFigure, setIsWhiteStep, isFirstMoveMage, setIsFirstMoveMage } = useCheckers();
 
   const killAction = activeFigure?.actions.find((action): action is IFigureKillAction => action.type === 'kill');
   const moveAction = activeFigure?.actions.find((action): action is IFigureMoveAction => action.type === 'move');
@@ -28,10 +34,13 @@ export const useCellClickHandler = () => {
         return cell;
       }));
 
+      if (!isFirstMoveMage) {
+        setIsFirstMoveMage(true);
+      }
       setIsWhiteStep(prev => !prev);
       setActiveFigure(null);
     }
-  }, [activeFigure, setActiveFigure, setCells, setIsWhiteStep]);
+  }, [activeFigure, isFirstMoveMage, setActiveFigure, setCells, setIsFirstMoveMage, setIsWhiteStep]);
 
   const killFigure = useCallback((killOrder: IKillSchema[]): void => {
     setCells(prev => prev.map(cell => {

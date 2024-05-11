@@ -1,12 +1,12 @@
 import type { IFigure } from 'entities/Cell';
 import type { FC, ReactNode } from 'react';
 import module from 'widgets/Board/ui/Board.module.scss';
-import { useFigure } from 'app/providers/FigureProvider';
+import { useCheckers } from 'app/providers/CheckersProvider';
 import { classNames } from 'shared/libs/classNames.ts';
 import Crown from 'shared/assets/crown.svg?react';
 
 export const CheckersCounter: FC = () => {
-  const { cells } = useFigure();
+  const { cells } = useCheckers();
   const whiteFigures = cells.map((cell) => cell.figure).filter((figure): figure is IFigure => figure?.color === 'white');
   const blackFigures = cells.map(cell => cell.figure).filter((figure): figure is IFigure => figure?.color === 'black');
 

@@ -1,4 +1,5 @@
-import { FC, memo } from 'react';
+import type { FC } from 'react';
+import { memo } from 'react';
 import module from './Column.module.scss';
 
 export const Column: FC = memo(() => {

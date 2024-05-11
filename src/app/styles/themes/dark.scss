@@ -1,11 +1,13 @@
 $bgColor: #000;
 $primaryColor: #fff;
 $secondaryColor: #3f3f3f;
+$dividerColor: rgba(0, 0, 0, 0.5);
 
 .app {
   &.dark {
     --bg-color: #{$bgColor};
     --primary-color: #{$primaryColor};
-    --navbar-bg-color: #{$secondaryColor}
+    --navbar-bg-color: #{$secondaryColor};
+    --disabled-color: #{$dividerColor};
   }
 }

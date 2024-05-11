@@ -1,4 +1,5 @@
-import { FC, memo, useState } from 'react';
+import type { FC } from 'react';
+import { memo, useState } from 'react';
 import module from './Switch.module.scss';
 import { classNames } from '../../libs/classNames.ts';
 
@@ -19,7 +20,7 @@ const Switch: FC<IProps> = memo(({
 }) => {
   const [checked, setChecked] = useState(initialChecked);
 
-  const toggleSwitch = () => {
+  const toggleSwitch = (): void => {
     setChecked((prev) => !prev);
 
     if (onChange) {

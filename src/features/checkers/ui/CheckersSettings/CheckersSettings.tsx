@@ -1,4 +1,5 @@
-import { FC, useCallback } from 'react';
+import type { FC } from 'react';
+import { useCallback } from 'react';
 import Modal from 'shared/ui/Modal/Modal.tsx';
 import Switch from 'shared/ui/Switch/Switch.tsx';
 import module from './CheckersSettings.module.scss';

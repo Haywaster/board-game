@@ -13,7 +13,10 @@ module.exports = {
 	},
   plugins: ['react-refresh', "unused-imports"],
   rules: {
-	  "@typescript-eslint/no-unused-vars": "warn",
+	  "@typescript-eslint/explicit-function-return-type": 2,
+	  "@typescript-eslint/consistent-type-imports": 2,
+	  "@typescript-eslint/consistent-type-definitions": 2,
+	  "@typescript-eslint/no-unused-vars": 1,
 	  indent: [1, 2],
 	  quotes: [1, "single"],
 	  semi: [1, "always"],

@@ -1,4 +1,5 @@
-import { FC, ReactNode, MouseEvent, useState, useRef, useEffect, useCallback } from 'react';
+import type { FC, ReactNode, MouseEvent } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import module from './Modal.module.scss';
 import Portal from '../../libs/components/Portal/Portal.tsx';
 import { classNames } from '../../libs/classNames.ts';
@@ -31,7 +32,8 @@ const Modal: FC<IProps> = ({ children, onClose, isOpen }) => {
       clearTimeout(timerRef.current);
     };
   }, [isOpen, onKeyDown]);
-  const onContentClick = (e: MouseEvent) => {
+
+  const onContentClick = (e: MouseEvent): void => {
     e.stopPropagation();
   };
 

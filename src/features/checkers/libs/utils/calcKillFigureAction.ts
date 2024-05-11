@@ -1,5 +1,5 @@
 import type { ICell, IFigure, IFigureKillAction, IKillOrderSchema, IKillSchema } from 'entities/Cell';
-import type { CheckersRuleConfig } from 'app/providers/RulesProvider';
+import type { CheckersRuleConfig } from '../../models/rules.ts';
 import { filterCellByDiagonal } from './common/filterCellByDiagonal.ts';
 import { sortCellsByFar } from './common/sortCellsByFar.ts';
 import { splitCellByDirections } from './common/splitCellByDirections.ts';
@@ -11,7 +11,7 @@ export const calcKillFigureAction = (cells: ICell[], findCell: ICell, clearRules
   const visitedCells: number[] = [];
 
   const getOrderKill = (currentCell: ICell, orderArr: IKillSchema[], isStain: boolean): void => {
-    const prepareAction = (cell: ICell, killFigure: IFigure, orderArr: IKillSchema[], potentialStain: boolean) => {
+    const prepareAction = (cell: ICell, killFigure: IFigure, orderArr: IKillSchema[], potentialStain: boolean): void => {
       const action: IKillSchema = {
         figure: killFigure, cell
       };

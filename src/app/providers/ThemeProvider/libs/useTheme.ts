@@ -1,10 +1,16 @@
 import { useContext } from 'react';
+import type { ThemeContextProps } from './ThemeContext.ts';
 import { LOCAL_STORAGE_THEME_KEY, Theme, ThemeContext } from './ThemeContext.ts';
 
-export const useTheme = () => {
-  const { theme, setTheme } = useContext(ThemeContext);
+interface IUseTheme {
+  theme: Theme
+  toggleTheme: () => void
+}
 
-  const toggleTheme = () => {
+export const useTheme = (): IUseTheme => {
+  const { theme, setTheme } = useContext(ThemeContext) as ThemeContextProps;
+
+  const toggleTheme = (): void => {
     const newTheme = theme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
     if (setTheme) {
       setTheme(newTheme);

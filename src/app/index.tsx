@@ -1,16 +1,16 @@
 import ReactDOM from 'react-dom/client';
-import App from 'app/App.tsx';
-import { ThemeProvider } from 'app/providers/ThemeProvider';
-import { RulesProvider } from 'app/providers/RulesProvider';
+import App from './App.tsx';
+import { ThemeProvider } from './providers/ThemeProvider';
+import { RulesProvider } from './providers/RulesProvider';
+import { CheckersProvider } from './providers/CheckersProvider';
 import './styles/index.scss';
-import { FigureProvider } from './providers/FigureProvider';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ThemeProvider>
     <RulesProvider>
-      <FigureProvider>
+      <CheckersProvider>
         <App/>
-      </FigureProvider>
+      </CheckersProvider>
     </RulesProvider>
   </ThemeProvider>
 );

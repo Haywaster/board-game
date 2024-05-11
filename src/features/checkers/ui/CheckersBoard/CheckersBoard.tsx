@@ -1,6 +1,7 @@
-import { FC, memo, useCallback, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { Cell } from 'entities/Cell';
-import { useFigure } from 'app/providers/FigureProvider';
+import { useCheckers } from 'app/providers/CheckersProvider';
 import { useRules } from 'app/providers/RulesProvider';
 import module from 'widgets/Board/ui/Board.module.scss';
 import { classNames } from 'shared/libs/classNames.ts';
@@ -10,7 +11,7 @@ import { getFigureActions } from '../../libs/utils/getFigureActions.ts';
 
 export const CheckersBoard: FC = memo(() => {
   const { clearRules } = useRules();
-  const { cells, isWhiteStep } = useFigure();
+  const { cells, isWhiteStep } = useCheckers();
   const [requireKillFigures, setRequireKillFigures] = useState<number[]>([]);
   const { isActiveFigure, onFigureClick } = useFigureClickHandler(requireKillFigures);
   const { isActiveCell, isSkipCell, onCellClick } = useCellClickHandler();

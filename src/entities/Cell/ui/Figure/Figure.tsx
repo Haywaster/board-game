@@ -1,4 +1,5 @@
-import { FC, memo } from 'react';
+import type { FC } from 'react';
+import { memo } from 'react';
 import module from './Figure.module.scss';
 import type { IFigure } from '../../model/types.ts';
 import Crown from 'shared/assets/crown.svg?react';

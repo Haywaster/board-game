@@ -1,4 +1,5 @@
-import { FC, memo } from 'react';
+import type { FC } from 'react';
+import { memo } from 'react';
 import module from './Row.module.scss';
 
 export const Row: FC = memo(() => {
