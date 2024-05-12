@@ -4,11 +4,13 @@ import { Column } from './Column/Column.tsx';
 import { Row } from './Row/Row.tsx';
 import module from './Board.module.scss';
 import { useCheckers } from 'app/providers/CheckersProvider';
+import { memo } from 'react';
+import type { IFigure } from 'entities/Cell';
 
-export const Board: FC = () => {
+export const Board: FC = memo(() => {
   const { isWhiteStep } = useCheckers();
 
-  const color = isWhiteStep ? 'White' : 'Black';
+  const color: Capitalize<IFigure['color']> = isWhiteStep ? 'White' : 'Black';
 
   return (
     <main>
@@ -25,4 +27,4 @@ export const Board: FC = () => {
       </div>
     </main>
   );
-};
+});

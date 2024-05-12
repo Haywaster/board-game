@@ -3,10 +3,13 @@ import type { FC, ReactElement } from 'react';
 import module from 'widgets/Board/ui/Board.module.scss';
 import { useCheckers } from 'app/providers/CheckersProvider';
 import { CounterFigures } from './CounterFigures.tsx';
-import Congratulation from '../Congratulation/Congratulation.tsx';
+import { ModalName, useModal } from 'app/providers/ModalProvider';
+import { CongratulationModal } from '../CongratulationModal/CongratulationModal.tsx';
+import { memo, useEffect } from 'react';
 
-export const CheckersCounter: FC = () => {
-  const { cells, isGameOver, setIsGameOver } = useCheckers();
+export const CheckersCounter: FC = memo(() => {
+  const { setCurrentModal } = useModal();
+  const { cells, isGameOver } = useCheckers();
   const whiteFigures = cells.map((cell) => cell.figure).filter((figure): figure is IFigure => figure?.color === 'white');
   const blackFigures = cells.map(cell => cell.figure).filter((figure): figure is IFigure => figure?.color === 'black');
 
@@ -24,11 +27,17 @@ export const CheckersCounter: FC = () => {
   const WhiteCountFigures = (): ReactElement => <CounterFigures figures={figures.white} color="white"/>;
   const BlackCountFigures = (): ReactElement => <CounterFigures figures={figures.black} color="black"/>;
 
+  useEffect(() => {
+    if (isGameOver) {
+      setCurrentModal(ModalName.CONGRATULATION);
+    }
+  }, [isGameOver, setCurrentModal]);
+
   return (
     <div
       className={module.Counter}>
       <WhiteCountFigures/> — <BlackCountFigures/>
-      <Congratulation openModal={isGameOver} closeHandler={() => setIsGameOver(false)}/>
+      <CongratulationModal />
     </div>
   );
-};
+});

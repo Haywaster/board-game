@@ -1,9 +1,9 @@
 import type { IFigure } from 'entities/Cell';
 import type { FC } from 'react';
+import { memo, useEffect } from 'react';
 import module from 'widgets/Board/ui/Board.module.scss';
 import { classNames } from 'shared/libs/classNames.ts';
 import Crown from 'shared/assets/crown.svg?react';
-import { useEffect } from 'react';
 import { useCheckers } from 'app/providers/CheckersProvider';
 
 interface IProps {
@@ -11,8 +11,8 @@ interface IProps {
   color: IFigure['color']
 }
 
-export const CounterFigures: FC<IProps> = ({ figures, color }) => {
-  const { setIsGameOver } = useCheckers();
+export const CounterFigures: FC<IProps> = memo(({ figures, color }) => {
+  const { setIsGameOver, isGameOver } = useCheckers();
   const { common, stain } = figures;
   const hasStain = stain > 0 && stain;
   const stainText = hasStain && <span className={module.Stain}>&nbsp;/ { hasStain } <Crown/></span>;
@@ -21,7 +21,7 @@ export const CounterFigures: FC<IProps> = ({ figures, color }) => {
     if (common + stain === 0) {
       setIsGameOver(true);
     }
-  }, [common, setIsGameOver, stain]);
+  }, [common, isGameOver, setIsGameOver, stain]);
 
   return (
     <p className={classNames(module.CounterItem, {}, [module[color]])}>
@@ -29,4 +29,4 @@ export const CounterFigures: FC<IProps> = ({ figures, color }) => {
       {stainText}
     </p>
   );
-};
+});

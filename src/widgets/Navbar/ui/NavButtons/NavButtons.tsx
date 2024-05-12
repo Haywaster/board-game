@@ -1,26 +1,23 @@
 import type { FC } from 'react';
-import { useState } from 'react';
 import Button from 'shared/ui/Button/Button.tsx';
 import { useTheme } from 'app/providers/ThemeProvider';
 import { useCheckers } from 'app/providers/CheckersProvider';
+import { CheckersSettingsModal } from 'features/checkers';
 import module from '../Navbar.module.scss';
-import CheckersSettings from 'features/checkers/ui/CheckersSettings/CheckersSettings.tsx';
 import Moon from 'shared/assets/moon.svg?react';
 import Sun from 'shared/assets/sun.svg?react';
 import Settings from 'shared/assets/settings.svg?react';
 import Reload from 'shared/assets/reload.svg?react';
+import { ModalName, useModal } from 'app/providers/ModalProvider';
+import { memo } from 'react';
 
-const NavButtons: FC = () => {
+export const NavButtons: FC = memo(() => {
   const { resetState, isFirstMoveMage } = useCheckers();
+  const { setCurrentModal } = useModal();
   const { theme, toggleTheme } = useTheme();
-  const [openModal, setOpenModal] = useState(false);
-
-  const closeHandler = (): void => {
-    setOpenModal(false);
-  };
 
   const openHandler = (): void => {
-    setOpenModal(true);
+    setCurrentModal(ModalName.SETTINGS);
   };
 
   const reloadGame = (): void => {
@@ -36,9 +33,7 @@ const NavButtons: FC = () => {
       <Button onClick={ toggleTheme }>{ themeText }</Button>
       <Button disabled={isFirstMoveMage} onClick={ openHandler }><Settings/></Button>
       <Button onClick={ reloadGame }><Reload/></Button>
-      <CheckersSettings openModal={ openModal } closeHandler={ closeHandler }/>
+      <CheckersSettingsModal/>
     </div>
   );
-};
-
-export default NavButtons;
+});

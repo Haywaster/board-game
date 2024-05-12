@@ -1,5 +1,5 @@
 import type { FC, ReactNode, MouseEvent } from 'react';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, memo } from 'react';
 import module from './Modal.module.scss';
 import Portal from '../../libs/components/Portal/Portal.tsx';
 import { classNames } from '../../libs/classNames.ts';
@@ -8,11 +8,13 @@ interface IProps {
 	isOpen: boolean;
 	onClose: () => void;
 	children: ReactNode
+  lazy?: boolean
 }
 
 const animationDelay = 300;
 
-const Modal: FC<IProps> = ({ children, onClose, isOpen }) => {
+const Modal: FC<IProps> = memo(({ children, onClose, isOpen, lazy }) => {
+  const [isMounted, setIsMounted] = useState(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
@@ -24,6 +26,7 @@ const Modal: FC<IProps> = ({ children, onClose, isOpen }) => {
 
   useEffect(() => {
     if (isOpen) {
+      setIsMounted(true);
       window.addEventListener('keydown', onKeyDown);
     }
 
@@ -52,6 +55,10 @@ const Modal: FC<IProps> = ({ children, onClose, isOpen }) => {
     }
   }, [onClose]);
 
+  if (lazy && !isMounted) {
+    return null;
+  }
+
   return (
     <Portal>
       <div className={classNames(module.Modal, mods, [])}>
@@ -63,6 +70,6 @@ const Modal: FC<IProps> = ({ children, onClose, isOpen }) => {
       </div>
     </Portal>
   );
-};
+});
 
 export default Modal;
