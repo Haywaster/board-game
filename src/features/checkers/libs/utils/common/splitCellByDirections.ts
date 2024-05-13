@@ -1,5 +1,5 @@
 import type { ICell, IFigure } from 'entities/Cell';
-import type { CheckersRuleConfig } from 'app/providers/RulesProvider';
+import type { CheckersRuleConfig } from '../../../models/rules.ts';
 
 export const splitCellByDirections = (cells: ICell[],
   main: IFigure | ICell,

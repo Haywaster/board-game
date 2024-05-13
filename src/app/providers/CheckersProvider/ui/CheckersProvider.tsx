@@ -11,30 +11,19 @@ export const CheckersProvider: FC<PropsWithChildren> = ({ children }) => {
   const [cells, setCells] = useState<ICell[]>(getCells());
   const [activeFigure, setActiveFigure] = useState<IActiveFigure | null>(null);
 
-  const defaultActiveFigureValue = useMemo(() => (
+  const defaultValue = useMemo(() => (
     {
-      activeFigure, setActiveFigure
-    }), [activeFigure]);
-
-  const defaultCellsValue = useMemo(() => (
-    {
-      cells, setCells
-    }), [cells]);
-
-  const defaultStepColor = useMemo(() => (
-    {
-      isWhiteStep, setIsWhiteStep
-    }), [isWhiteStep]);
-
-  const defaultFirstMoveMage = useMemo(() => (
-    {
-      isFirstMoveMage, setIsFirstMoveMage
-    }), [isFirstMoveMage]);
-
-  const defaultIsGameOver = useMemo(() => (
-    {
-      isGameOver, setIsGameOver
-    }), [isGameOver]);
+      activeFigure,
+      setActiveFigure,
+      cells,
+      setCells,
+      isWhiteStep,
+      setIsWhiteStep,
+      isFirstMoveMage,
+      setIsFirstMoveMage,
+      isGameOver,
+      setIsGameOver
+    }), [activeFigure, cells, isFirstMoveMage, isGameOver, isWhiteStep]);
 
   const resetState = useCallback((): void => {
     setCells(getCells());
@@ -47,11 +36,7 @@ export const CheckersProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <CheckersContext.Provider value={
       {
-        ...defaultActiveFigureValue,
-        ...defaultCellsValue,
-        ...defaultStepColor,
-        ...defaultFirstMoveMage,
-        ...defaultIsGameOver,
+        ...defaultValue,
         resetState
       }
     }>
