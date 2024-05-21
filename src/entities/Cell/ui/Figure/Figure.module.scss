@@ -40,6 +40,11 @@
     height: 85%;
   }
 
+  &.moving {
+    position: absolute;
+    z-index: 1;
+  }
+
   & > svg {
     width: 80%;
     height: 80%;

@@ -4,6 +4,7 @@ export interface IFigure {
   x: number
   y: number
   isStain: boolean
+  moveCoords?: {x: number, y: number}
 }
 
 export interface ICell {
