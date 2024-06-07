@@ -5,9 +5,7 @@ import { useCheckers } from 'app/providers/CheckersProvider';
 import { useRules } from 'app/providers/RulesProvider';
 import module from 'widgets/Board/ui/Board.module.scss';
 import { classNames } from 'shared/libs/classNames.ts';
-import { useFigureClickHandler } from '../../libs/hooks/useFigureClickHandler.ts';
-import { useCellClickHandler } from '../../libs/hooks/useCellClickHandler.ts';
-import { useRequireKillFigures } from '../../libs/hooks/useRequireKillFigures.ts';
+import { useFigureClickHandler, useCellClickHandler, useRequireKillFigures } from '../../libs';
 
 export const CheckersBoard: FC = memo(() => {
   const prompts = useRules().clearRules.prompts;

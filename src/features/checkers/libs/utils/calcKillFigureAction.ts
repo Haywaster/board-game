@@ -1,17 +1,19 @@
 import type { ICell, IFigure, IFigureKillAction, IKillOrderSchema, IKillSchema } from 'entities/Cell';
-import type { CheckersRuleConfig } from '../../models/rules.ts';
-import { filterCellByDiagonal } from './common/filterCellByDiagonal.ts';
-import { sortCellsByFar } from './common/sortCellsByFar.ts';
-import { splitCellByDirections } from './common/splitCellByDirections.ts';
-import { removeRestCells } from './common/removeRestCells.ts';
+import type { CheckersRuleConfig } from '../../models';
+import { filterCellByDiagonal, removeRestCells, sortCellsByFar, splitCellByDirections } from '.';
 
-export const calcKillFigureAction = (cells: ICell[], findCell: ICell, clearRules: CheckersRuleConfig): IFigureKillAction | null => {
+export const calcKillFigureAction = (cells: ICell[],
+  findCell: ICell,
+  clearRules: CheckersRuleConfig): IFigureKillAction | null => {
   const findFigure = findCell.figure as IFigure;
   const killOrderArr: IKillOrderSchema[] = [];
   const visitedCells: number[] = [];
 
   const getOrderKill = (currentCell: ICell, orderArr: IKillSchema[], isStain: boolean): void => {
-    const prepareAction = (cell: ICell, killFigure: IFigure, orderArr: IKillSchema[], potentialStain: boolean): void => {
+    const prepareAction = (cell: ICell,
+      killFigure: IFigure,
+      orderArr: IKillSchema[],
+      potentialStain: boolean): void => {
       const action: IKillSchema = {
         figure: killFigure, cell
       };

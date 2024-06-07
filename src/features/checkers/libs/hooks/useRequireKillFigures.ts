@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { getFigureActions } from '../utils/getFigureActions.ts';
+import { getFigureActions } from '../utils';
 import { useCheckers } from 'app/providers/CheckersProvider';
 import { useRules } from 'app/providers/RulesProvider';
 
@@ -35,7 +35,7 @@ export const useRequireKillFigures = (): IUseRequireKillFigures => {
     } else {
       setKillerFigures();
     }
-  }, [clearRules.require_kill, requireKillFigures, setKillerFigures]);
+  }, [clearRules.require_kill, requireKillFigures.length, setKillerFigures]);
 
   const isRequireFigure = (id: number | undefined): boolean => id ? requireKillFigures.includes(id) : false;
 

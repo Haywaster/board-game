@@ -1,0 +1,1 @@
+export type { CheckersRuleConfig } from './rules.ts';
