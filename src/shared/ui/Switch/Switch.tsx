@@ -39,7 +39,7 @@ const Switch: FC<IProps> = memo(({
       <div className={module.Track}>
         <div className={module.Toggle} />
       </div>
-      {label}
+      <span>{label}</span>
     </label>
   );
 });

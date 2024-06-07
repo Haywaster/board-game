@@ -2,7 +2,16 @@
   display: inline-flex;
   align-items: center;
   gap: 16px;
-  font-size: 20px;
+
+  & > span {
+    font-size: 20px;
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+
+
 
   &:global(.checked) {
     .Track {
@@ -24,6 +33,7 @@
   border-radius: 15px;
   transition: background-color 0.2s;
   cursor: pointer;
+  box-sizing: content-box;
 }
 
 .Toggle {

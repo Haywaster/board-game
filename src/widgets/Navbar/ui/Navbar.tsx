@@ -11,7 +11,7 @@ interface IProps {
 export const Navbar: FC<IProps> = memo(({ className }) => {
   return (
     <nav className={classNames(module.Navbar, {}, [className])}>
-      <h1>Welcome to checkers!</h1>
+      <h1>Checkers</h1>
       <NavButtons/>
     </nav>
   );
