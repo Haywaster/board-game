@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import welcome from 'shared/assets/welcome.webp';
+import welcome from 'shared/assets/welcome.png';
 import { CheckersSettings } from 'features/checkers';
 import Button, { ThemeButton } from 'shared/ui/Button/Button.tsx';
 import module from './Welcome.module.scss';
@@ -21,11 +21,8 @@ export const Welcome: FC<IWelcomeProps> = ({ setWelcomeWasShown }) => {
   return (
     <div className={module.welcome}>
       <h1>Welcome to checkers!</h1>
+      <h2>You can select the game settings and click on the "Play" button</h2>
       <section className={module.wrapper}>
-        <aside>
-          <img src={welcome} alt='welcome'/>
-          <p>To start your first game, select the settings and click on the "Play" button</p>
-        </aside>
         <div className={module.settings}>
           <CheckersSettings>
             <Switch onChange={toggleTheme} id='theme' label={`Theme: ${theme}`}/>
@@ -34,6 +31,7 @@ export const Welcome: FC<IWelcomeProps> = ({ setWelcomeWasShown }) => {
             Play
           </Button>
         </div>
+        <img src={welcome} alt='welcome'/>
       </section>
     </div>
   );

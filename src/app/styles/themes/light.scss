@@ -2,6 +2,7 @@ $bgColor: #fff;
 $primaryColor: #000;
 $secondaryColor: #b1b1b1;
 $dividerColor: rgba(255, 255, 255, 0.5);
+$btnPrimaryColor: #fff8dc;
 
 body {
   &.light {
@@ -9,5 +10,6 @@ body {
     --primary-color: #{$primaryColor};
     --navbar-bg-color: #{$secondaryColor};
     --disabled-color: #{$dividerColor};
+    --btn-primary-color: #{$btnPrimaryColor};
   }
 }
