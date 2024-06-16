@@ -1,6 +1,5 @@
 import type { ICell, IFigureKillAction, IFigureMoveAction, IKillSchema } from 'entities/Cell';
-import { useCheckers } from 'app/providers/CheckersProvider';
-import { useRules } from 'app/providers/RulesProvider';
+import { useActiveFigure, useCheckers, useRules } from 'app/providers';
 import { useCallback } from 'react';
 
 interface IUseCellClickHandler {
@@ -13,7 +12,8 @@ const animationTime = 150;
 
 export const useCellClickHandler = (): IUseCellClickHandler => {
   const { clearRules } = useRules();
-  const { activeFigure, cells, setCells, setActiveFigure, setIsWhiteStep, isFirstMoveMage, setIsFirstMoveMage } = useCheckers();
+  const { activeFigure, setActiveFigure } = useActiveFigure();
+  const { cells, setCells, setIsWhiteStep, isFirstMoveMage, setIsFirstMoveMage } = useCheckers();
 
   const killAction = activeFigure?.actions.find((action): action is IFigureKillAction => action.type === 'kill');
   const moveAction = activeFigure?.actions.find((action): action is IFigureMoveAction => action.type === 'move');

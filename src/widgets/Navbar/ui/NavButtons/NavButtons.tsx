@@ -10,9 +10,11 @@ import Settings from 'shared/assets/settings.svg?react';
 import Reload from 'shared/assets/reload.svg?react';
 import { ModalName, useModal } from 'app/providers/ModalProvider';
 import { memo } from 'react';
+import { useActiveFigure } from '../../../../app/providers';
 
 export const NavButtons: FC = memo(() => {
   const { resetState, isFirstMoveMage } = useCheckers();
+  const setActiveFigure = useActiveFigure().setActiveFigure;
   const { setCurrentModal } = useModal();
   const { theme, toggleTheme } = useTheme();
 
@@ -23,6 +25,7 @@ export const NavButtons: FC = memo(() => {
   const reloadGame = (): void => {
     if (isFirstMoveMage) {
       resetState();
+      setActiveFigure(null);
     }
   };
 

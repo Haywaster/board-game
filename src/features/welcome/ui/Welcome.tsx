@@ -5,17 +5,18 @@ import Button, { ThemeButton } from 'shared/ui/Button/Button.tsx';
 import module from './Welcome.module.scss';
 import Switch from 'shared/ui/Switch/Switch.tsx';
 import { useTheme } from 'app/providers/ThemeProvider';
+import { memo } from 'react';
 
 interface IWelcomeProps {
-  setWelcomeWasShown: (value: boolean) => void
+  setIsWelcomeOpen: (value: boolean) => void
 }
 
-export const Welcome: FC<IWelcomeProps> = ({ setWelcomeWasShown }) => {
+export const Welcome: FC<IWelcomeProps> = memo(({ setIsWelcomeOpen }) => {
   const { theme, toggleTheme } = useTheme();
 
   const hideWelcome = (): void => {
-    localStorage.setItem('welcomeWasShown', 'true');
-    setWelcomeWasShown(true);
+    localStorage.setItem('isWelcomeOpen', 'false');
+    setIsWelcomeOpen(false);
   };
 
   return (
@@ -35,4 +36,4 @@ export const Welcome: FC<IWelcomeProps> = ({ setWelcomeWasShown }) => {
       </section>
     </div>
   );
-};
+});

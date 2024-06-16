@@ -5,8 +5,6 @@ import { useContext } from 'react';
 export const useCheckers = (): CheckersContextProps => {
   const
     {
-      activeFigure,
-      setActiveFigure,
       cells,
       setCells,
       isWhiteStep,
@@ -19,8 +17,6 @@ export const useCheckers = (): CheckersContextProps => {
     } = useContext(CheckersContext) as CheckersContextProps;
 
   return {
-    activeFigure,
-    setActiveFigure,
     cells,
     setCells,
     isWhiteStep,

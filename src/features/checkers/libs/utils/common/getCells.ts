@@ -36,3 +36,5 @@ export const getCells = (): ICell[] => {
 
   return cells.map((cell, index) => ({ ...cell, id: index }));
 };
+
+export const initialCells = getCells();

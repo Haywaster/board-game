@@ -6,15 +6,18 @@ import type { IFigure } from 'entities/Cell';
 import Button, { ThemeButton } from 'shared/ui/Button/Button.tsx';
 import { ModalName, useModal } from 'app/providers/ModalProvider';
 import { memo } from 'react';
+import { useActiveFigure } from '../../../../app/providers';
 
 export const CongratulationModal: FC = memo(() => {
   const { currentModal, setCurrentModal } = useModal();
   const { isWhiteStep, resetState } = useCheckers();
+  const setActiveFigure = useActiveFigure().setActiveFigure;
   const whoHasWon: Capitalize<IFigure['color']> = isWhiteStep ? 'Black' : 'White';
 
   const restartGame = (): void => {
     setCurrentModal(null);
     resetState();
+    setActiveFigure(null);
   };
 
   const changeSettings = (): void => {
@@ -26,7 +29,7 @@ export const CongratulationModal: FC = memo(() => {
   };
 
   return (
-    <Modal lazy isOpen={currentModal === ModalName.CONGRATULATION} onClose={closeHandler}>
+    <Modal isOpen={currentModal === ModalName.CONGRATULATION} onClose={closeHandler}>
       <h2>Game over</h2>
       <p>Congratulation! { whoHasWon } won!</p>
       <div className={module.BtnWrapper}>

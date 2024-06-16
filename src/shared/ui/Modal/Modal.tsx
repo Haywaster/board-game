@@ -9,11 +9,12 @@ interface IProps {
 	onClose: () => void;
 	children: ReactNode
   lazy?: boolean
+  className?: string
 }
 
 const animationDelay = 300;
 
-const Modal: FC<IProps> = memo(({ children, onClose, isOpen, lazy }) => {
+const Modal: FC<IProps> = memo(({ children, onClose, isOpen, lazy, className }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
@@ -61,7 +62,7 @@ const Modal: FC<IProps> = memo(({ children, onClose, isOpen, lazy }) => {
 
   return (
     <Portal>
-      <div className={classNames(module.Modal, mods, [])}>
+      <div className={classNames(module.Modal, mods, [className])}>
         <div onClick={onCloseHandler} className={module.Overlay}>
           <div onClick={onContentClick} className={module.Content}>
             {children}

@@ -2,24 +2,24 @@ import type { FC } from 'react';
 import { Welcome } from 'features/welcome';
 import { Navbar } from 'widgets/Navbar';
 import { Board } from 'widgets/Board';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
-const Game: FC = () => (
+const Game: FC = memo(() => (
   <>
     <Navbar/>
     <Board/>
   </>
-);
+));
 
 const App: FC = () => {
-  const [welcomeWasShown, setWelcomeWasShown] = useState<boolean>(false);
-  const content = welcomeWasShown ? <Game/> : <Welcome setWelcomeWasShown={setWelcomeWasShown}/>;
+  const [isWelcomeOpen, setIsWelcomeOpen] = useState<boolean>(false);
+  const content = isWelcomeOpen ? <Welcome setIsWelcomeOpen={setIsWelcomeOpen}/> : <Game/>;
 
   useEffect(() => {
-    const welcome = localStorage.getItem('welcomeWasShown');
+    const welcome = localStorage.getItem('isWelcomeOpen');
 
-    if (welcome && welcome.length > 0) {
-      setWelcomeWasShown(!!JSON.parse(welcome));
+    if (!welcome?.length) {
+      setIsWelcomeOpen(true);
     }
   }, []);
 

@@ -1,10 +1,8 @@
-import type { IActiveFigure, ICell } from 'entities/Cell';
+import type { ICell } from 'entities/Cell';
 import type { Dispatch, SetStateAction } from 'react';
 import { createContext } from 'react';
 
 export interface CheckersContextProps {
-	activeFigure: IActiveFigure | null
-	setActiveFigure: Dispatch<SetStateAction<IActiveFigure| null>>
 	cells: ICell[]
 	setCells: Dispatch<SetStateAction<ICell[]>>
 	isWhiteStep: boolean

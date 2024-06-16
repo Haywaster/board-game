@@ -1,8 +1,7 @@
 import type { IFigure } from 'entities/Cell';
 import { useCallback } from 'react';
-import { useCheckers } from 'app/providers/CheckersProvider';
-import { useRules } from 'app/providers/RulesProvider';
-import { getFigureActions } from '../utils/getFigureActions.ts';
+import { useCheckers, useRules, useActiveFigure } from 'app/providers';
+import { getFigureActions } from '../utils';
 
 interface IUseFigureClickHandler {
   onFigureClick: (figure: IFigure) => void
@@ -11,7 +10,8 @@ interface IUseFigureClickHandler {
 
 export const useFigureClickHandler = (requireKillFigures: number[]): IUseFigureClickHandler => {
   const { clearRules } = useRules();
-  const { cells, setActiveFigure, isWhiteStep, activeFigure } = useCheckers();
+  const { cells, isWhiteStep } = useCheckers();
+  const { activeFigure, setActiveFigure } = useActiveFigure();
 
   const onFigureClick = useCallback((figure: IFigure) => {
     if (requireKillFigures.length && !requireKillFigures.includes(figure.id)) {

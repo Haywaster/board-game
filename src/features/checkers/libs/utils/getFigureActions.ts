@@ -1,5 +1,5 @@
 import type { ICell, IFigureAction } from 'entities/Cell';
-import type { CheckersRuleConfig } from '../../models/rules.ts';
+import type { CheckersRuleConfig } from '../../models';
 import { calcMoveFigureAction } from './calcMoveFigureAction.ts';
 import { calcKillFigureAction } from './calcKillFigureAction.ts';
 
